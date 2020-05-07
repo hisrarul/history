@@ -197,3 +197,40 @@ cat file3.txt
  git log --graph --pretty=oneline
  git rebase master
  git log --graph --pretty=oneline
+
+
+git pull origin master
+ls
+cat file6.txt
+git merge test
+vi file6.txt
+cat file6.txt
+git merge test
+git status
+git add file6.txt
+git merge test
+git commit -m "merge conflict"
+git merge test
+echo "We are going to explore merge conflict from github.com byy creating a file in master branch" >> file9.txt
+echo "Let's do this" >> file9.txt
+cat file9.txt
+git checkout test
+ls
+echo "We are going to explore merge conflict from github.com byy creating a file in master branch" >> file9.txt
+echo "She is beautiful" >> file9.txt
+echo "She is beautiful with her wonderful thoughts" >> file9.txt
+git add .
+git commit -m "added file9.txt"
+git push origin test
+git checkout master
+git status
+git push origin master
+ls
+git status
+echo "We are going to explore merge conflict from github.com byy creating a file in master branch" >> file9.txt
+echo "Let's do this" >> file9.txt
+ls
+git status
+git add file9.txt
+git commit -m "created file9.txt"
+git push origin master
