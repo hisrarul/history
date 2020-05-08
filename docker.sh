@@ -20,3 +20,60 @@ password: israrul
    18  vi /etc/group
    19  passwd israrul
    20  su - israrul
+   
+docker ps -a
+docker ps | grep 5c2663daa2a5
+docker ps
+docker exec 220cd16e6972 /bin/bash
+docker exec -it 220cd16e6972 /bin/bash
+docker exec -it fd19eb8fb76f /bin/bash
+docker ps
+docker stop fbd7a9307489
+docker ps
+docker ps -a | grep fbd7a9307489
+docker ps
+docker kill 220cd16e6972
+docker ps
+docker ps -a | grep 220cd16e6972
+docker ps -a | tail
+docker rm 0021b1d60654
+docker ps -a | grep 0021b1d60654
+docker images
+docker rmi bf756fb1ae6 
+   
+docker exec -it fd19eb8fb76f /bin/bash
+docker ps
+docker stop fbd7a9307489
+docker ps
+docker ps -a | grep fbd7a9307489
+docker ps
+docker kill 220cd16e6972
+docker ps
+docker ps -a | grep 220cd16e6972
+docker ps -a | tail
+docker rm 0021b1d60654
+docker ps -a | grep 0021b1d60654
+docker images
+docker rmi bf756fb1ae65
+man docker
+docker ps --help
+history
+docker ps
+docker run -it -d ubuntu
+docker ps
+docker run -it --name israrul -d ubuntu
+docker ps
+clear
+docker images
+docker run -it -d ubuntu /bin/bash
+docker run -it -d ubuntu /bin/bash --name israrul2
+docker ps
+docker run -it -d ubuntu --name israrul2
+docker run -it --name israrul2 -d ubuntu:latest
+docker ps
+docker exec -it israrul2 /bin/bash
+docker ps
+docker commit israrul2 hisrarul/israrul2
+docker images
+docker login
+docker push hisrarul/israrul2
