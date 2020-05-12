@@ -1,6 +1,3 @@
-ssh israrul@13.232.136.108
-password: israrul
-
     2  apt-get install docker.io -y
     3  apt-get update
     4  apt-get install docker.io -y
@@ -77,3 +74,48 @@ docker commit israrul2 hisrarul/israrul2
 docker images
 docker login
 docker push hisrarul/israrul2
+
+
+############# 12th May 2020 ###############
+ pwd
+ vi Dockerfile
+ cat Dockerfile
+ docker build .
+ > Dockerfile
+
+ vi Dockerfile
+ FROM ubuntu:latest
+ ARG DEBIAN_FRONTEND=noninteractive
+ RUN apt-get update
+ RUN apt-get install apache2 -y
+ ENV Name=Apacheserver
+ CMD apachectl -D FOREGROUND
+
+ docker build .
+ docker images
+ 
+ docker tag c41b74275aca hisrarul/israrul:v4
+ docker images
+ printenv
+ vi Dockerfile
+ docker build -t israrul:v5 .
+ docker images
+
+ docker run -it israrul:v5 env
+ cat Dockerfile
+ docker build hisrarul/israrul:v5 .
+ 
+ docker build -t hisrarul/israrul:v6 .
+ docker run -p 8080:80 --name apache2 -tid hisrarul/israrul:v6
+ docker ps
+ curl http://localhost:8080
+ 
+ git clone https://github.com/hisrarul/history.git
+ cd history/docker
+ curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ chmod +x /usr/local/bin/docker-compose
+ ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+ docker-compose --version
+ 
+ docker-compose build
+ docker-compose up
