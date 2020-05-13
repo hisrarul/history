@@ -119,3 +119,62 @@ docker push hisrarul/israrul2
  
  docker-compose build
  docker-compose up
+
+
+####################### 13th May 2020 ####################
+docker-compose up
+git clone https://github.com/hisrarul/history.git
+ls
+cd history/
+ls
+cd docker/
+ls
+cat docker-compose.yaml
+pwd
+cat Dockerfile
+cat requirements.txt
+ls
+vi app.py
+clear
+docker-compose build
+docker images
+docker-compose up
+vi docker-compose.yaml
+clear
+cd
+docker --help
+clear
+docker swarm init --advertise-addr 172.31.38.61
+
+### RUn on worker
+docker swarm join --token SWobo0vnnni-4bkn5ntvytdjh9o 172.31.38.61:2377
+docker info
+docker info | more
+docker node ls
+clear
+docker service create --name apache --replicas 3 -p 80:80 httpd
+docker service create --name apache --replicas 3 -p 81:80 httpd
+docker service ls
+docker service ps apache
+curl http://localhost:81
+clear
+docker network create -d overlay my-overlay
+docker network ls
+docker service create --name webapp --replicas 2 --network my-overlay --publish 82:80 hshar/webapp
+docker service create --name db --replicas 2 --network my-overlay hshar/mysql:5.6
+docker service ls
+docker service ps db
+docker service --help
+docker service scale --help
+docker service scale db=11
+docker service scale db=1
+docker service ls
+docker service ps db
+docker exec -it g8qybrtll771 /bin/bash
+docker ps
+docker exec -it c7f673b37fe1 /bin/bash
+docker commit --help
+docker commit c7f673b37fe1 hisrarul/mysql:5.6
+docker images
+docker login
+docker push hisrarul/mysql:5.6
