@@ -15,3 +15,7 @@ vi /etc/default/puppetserver
 systemctl restart puppetserver
 systemctl status puppetserver
 systemctl enable puppetserver
+
+puppet cert list
+puppet cert list --all
+puppet cert sign puppet-agent01.example.com
