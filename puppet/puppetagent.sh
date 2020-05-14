@@ -4,3 +4,5 @@ apt-get update
 apt-get install puppet-agent -y
 hostnamectl set-hostname puppet-agent01.example.com
 hostname
+echo "172.31.33.138 puppet-agent01.example.com puppet-agent01" >> /etc/hosts
+echo "172.31.40.41 puppet-server.example.com puppet-server" >> /etc/hosts
