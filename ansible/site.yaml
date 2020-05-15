@@ -1,0 +1,7 @@
+---
+- hosts: app1
+  become_method: sudo
+  become: true
+  become_user: root
+  roles:
+    - nginx

@@ -1,0 +1,11 @@
+---
+- hosts: israrul
+  become_method: sudo
+  become: yes
+  become_user: root
+  name: Play1
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest

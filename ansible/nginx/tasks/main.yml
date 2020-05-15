@@ -1,0 +1,6 @@
+---
+# tasks file for nginx
+
+- include: play1.yaml
+- include: play2.yaml
+- include: play3.yaml
