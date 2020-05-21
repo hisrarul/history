@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage ('Clone git repo') {
+            steps {
+                git 'https://github.com/hisrarul/history.git'
+            }
+        }
+        stage('Starting the website') {
+            steps {
+                script {
+                    sh 'docker run --name apache_$BUILD_NUMBER -p 80:80 -v $(pwd)/jenkins:/usr/local/apache2/htdocs/ -itd httpd:2.4'
+                    sh 'docker ps'
+                }
+            }
+        }
+    }
+}
