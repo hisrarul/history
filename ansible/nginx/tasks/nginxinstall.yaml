@@ -1,0 +1,18 @@
+- name: Update repo
+  shell: "yum repolist"
+
+- name: Install nginx
+  yum:
+    name: "{{ package }}"
+    state: installed
+
+- name: Start nginx service
+  service:
+    name: "{{ package }}"
+    state: started
+
+- name: create nginx index directory
+  file:
+    path: /var/www/html
+    state: directory
+    mode: 755

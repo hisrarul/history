@@ -1,0 +1,6 @@
+- name: remove nginx
+  yum:
+    name: "{{ package }}"
+    state: absent
+  tags:
+  - remove
