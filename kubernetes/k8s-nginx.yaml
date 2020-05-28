@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ds
+  namespace: sts
+  labels:
+    app: nginx-ds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-ds
+  template:
+    metadata:
+      labels:
+        app: nginx-ds
+    spec:
+      containers:
+        - image: nginx
+          name: nginx-ds
