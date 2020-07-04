@@ -1,12 +1,21 @@
 mkdir eks
+
 cd eks/
+
 ls
+
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
 sudo mv /tmp/eksctl /usr/local/bin
+
 eksctl version
+
 kubectl version --short --client
+
 sudo apt-get install -y apt-transport-https
+
 eksctl create cluster --help
+
 >cat eks-cluster.yaml
 ```
 apiVersion: eksctl.io/v1alpha5
@@ -151,14 +160,18 @@ kubectl get nodes
 
 #### Configure Autoscaler
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+
 >Add annotation so that it does not evict its own pod
+
 kubectl -n kube-system annotate deployment.apps/cluster-autoscaler cluster-autoscaler.kubernetes.io/safe-to-evict="false" --overwrite
+
 kubectl get deployment.apps/cluster-autoscaler -n kube-system -o yaml
 
 #### Update autoscaler image and cluster name in autoscaler deployment
 + Check the kubernetes version from AWS management console
 + Check the autoscaler release for the same kubernetes and update in deployment image container config `https://github.com/kubernetes/autoscaler/releases`
 kubectl edit deployment cluster-autoscaler -n kube-system
+
 kubectl describe deployment cluster-autoscaler -n kube-system
 
 #### Check nodes
@@ -198,6 +211,7 @@ spec:
 ```
 #### Apply the changes
 kubectl api-resources
+
 kubectl apply -f nginx-deployment.yaml 
 #### Check if the pods started to run on a node
 kubectl get pod -o wide
@@ -210,12 +224,16 @@ kubectl scale --replicas=4 deployment/test-autoscaler
 
 #### Check logs of cluster to see what is happening
 kubectl -n kube-system logs deployment.apps/cluster-autoscaler
+
 kubectl get nodes -l instance-type=spot
+
 kubectl get pod
+
 kubectl get nodes --no-headers | awk '{print $1}' | xargs -I {} sh -c 'echo {}; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo'
 
 #### Test scale in of the nodes
 kubectl scale --replicas=2 deployment/test-autoscaler
+
 kubectl get nodes -l instance-type=spot
 
 #### To save cost lets remove nodes
@@ -240,9 +258,13 @@ eksctl utils update-cluster-logging --name=eks-cluster --disable-types all
 
 #### Install helm and add stable helm chart
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
 helm repo add stable https://kuberntees-charts.storage.googleapis.com
+
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
 helm repo update
+
 helm search repo
 
 #### Install prometheus
@@ -251,12 +273,14 @@ kubectl create namespace prometheus
 helm install prometheus stable/prometheus --namespace prometheus --set alertmanager.persistentVolume.storageClass="gp2" --set server.persistentVolume.storageClass="gp2"
 
 export POD_NAME=$(kubectl get pods --namespace prometheus -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+
 kubectl --namespace prometheus port-forward $POD_NAME 9090
 
 kubectl get pod -n prometheus
+
 kubectl get pod -n prometheus -o wide
+
 kubectl get nodes
-ls
 
 #### Now, we can try with only one node
 ```
@@ -277,29 +301,32 @@ nodeGroups:
 
 #### Cloudformation is already available so we just to update autoscaling group
 eksctl create nodegroup -f eks-cluster-2.yaml
+
 kubectl get pod -n prometheus -o wide
 
 #### To run on local host's browser, do the port forwarding
 export POD_NAME=$(kubectl get pods --namespace prometheus -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+
 kubectl --namespace prometheus port-forward $POD_NAME 9090
 
 #### Create grafana
 kubectl create namespace grafana
+```
 helm install grafana stable/grafana --namespace grafana --set persistence.storage.storageClassname="gp2" --set adminPassword='GrafanaAdm!n' --set datasources."datasources\.yaml".apiVersion=1 --set datasources."datasources\.yaml".datasources[0].name=Prometheus --set datasources."datasources\.yaml".datasources[0].type=prometheus --set datasources."datasources\.yaml".datasources[0].url=http://prometheus-server.prometheus.svc.cluster.local --set datasources."datasources\.yaml".datasources[0].access=proxy --set datasources."datasources\.yaml".datasources[0].isDefault=true --set service.type=LoadBalancer
-
+```
 #### Get the password
 kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 #### Access grafana on browser
 + Copy the service url. At this moment, service type is loadbalancer
-kubectl get svc -n grafana
+> kubectl get svc -n grafana
 
 + Check the data sources
-Configuration > Data sources > Prometheus should be available
+> Configuration > Data sources > Prometheus should be available
 
 + Look for the available dashboard
 > https://grafana.com/grafana/dashboards?dataSource=prometheus&search=kubernetes
 
 + At this moment, lets copy the id of the dashboard i.e. 10000 and `import` in grafana
-Click on `+` sign > import > import via grafana.com > Enter id `10000`
-Click on Load.
+>Click on `+` sign > import > import via grafana.com > Enter id `10000`
+>Click on Load.
