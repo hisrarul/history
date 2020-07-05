@@ -1,2 +1,3 @@
 # history
-Intellipaat-DevOps May Batch
+
+Hisotry of something important to follow as a DevOps or SRE engineer.
