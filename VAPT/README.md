@@ -257,3 +257,9 @@ chmod +x /usr/local/bin/docker-compose \
 docker-compose --version \
 docker-compose up -d \
 apt install docker.io
+
+
+_______________________________________________________________________________________________
+
+## slowhttptest
+slowhttptest -c 25000 -H -g -o ./output_file -i 10 -r 200 -u http://www.example.com -x 24 -p 2
