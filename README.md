@@ -3,9 +3,14 @@
 Hisotry of something important to follow as a DevOps or SRE engineer.
 
 ## For more updates:
-#### YouTube [click here](https://www.youtube.com/c/4iglance)
-
-#### Facebook [click here](https://www.facebook.com/4iglance)
+- [Youtube][youtube]
+- [Facebook][facebook]
 
 ## Join our discussion channel:
-#### Discord [click here](http://discord.gg/H9jXNhA)
+- [Discord][discord]
+
+<!----variables---->
+
+[discord]: https://discordapp.com/invite/xNEdEGw
+[youtube]: https://www.youtube.com/c/4iglance
+[facebook]: https://www.facebook.com/4iglance
