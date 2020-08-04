@@ -12,7 +12,7 @@ Hisotry of something important to follow as a DevOps or SRE engineer.
 
 <!----variables---->
 
-[discord]: https://discordapp.com/invite/xNEdEGw
+[discord]: https://discord.com/invite/H9jXNhA
 [youtube]: https://www.youtube.com/c/4iglance
 [facebook]: https://www.facebook.com/4iglance
 [telegram]: https://t.me/fouriglance
