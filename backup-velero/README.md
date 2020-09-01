@@ -111,3 +111,4 @@ velero install \
 * https://github.com/jtblin/kube2iam
 * https://github.com/vmware-tanzu/velero
 * https://github.com/justmeandopensource/kubernetes/blob/master/docs/setup-velero-notes.md
+* https://documentation.suse.com/suse-caasp/4.2/html/caasp-admin/_backup_and_restore_with_velero.html#:~:text=Velero%20is%20a%20solution%20for,on%2Ddemand%20or%20by%20schedule.
