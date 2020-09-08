@@ -7,7 +7,7 @@ sudo docker run \
     --name posttest \
     -p 5432:5432 \
     -v /mnt/data/postgres/:/var/lib/postgresql/data/ \
-    -e POSTGRES_PASSWORD=password \
+    -e POSTGRES_PASSWORD=yourpassword \
     -d postgres:11.7
 ```
 
@@ -37,4 +37,14 @@ services:
 
 docker-compose -f stack.yaml up
 
-##### Now, we can access postgres database from the browser.
+#### Create users in postgres database
+
+``` CREATE USER "yourusername" WITH PASSWORD 'yourpassword';```
+
+#### Grant access to tables in schema other than public
+```
+GRANT USAGE ON SCHEMA otherthanpublicschema TO "yourusername";
+GRANT SELECT ON ALL TABLES IN SCHEMA otherthanpublicschema TO "yourusername";
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "yourusername";
+```
+
