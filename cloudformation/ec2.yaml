@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A demo of ec2 instance
+Parameters:
+  instanceType:
+    Type: String
+    Description: Choose instance type.
+    AllowedValues: ["t2.micro", "t2.small"]
+  imageId:
+    Type: String
+    Description: Enter the ami Id.
+    Default: ami-09a7bbd08886aafdf
+  keyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Choose your key for ec2 instances.
+  mySubnetIDs: 
+    Description: Subnet IDs
+    Type: "AWS::EC2::Subnet::Id"
+Resources:
+  raghibInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref imageId
+      InstanceType: !Ref instanceType
+      KeyName: !Ref keyName
+      SubnetId: !Ref mySubnetIDs
+  vraInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref imageId
+      InstanceType: !Ref instanceType
+      KeyName: !Ref keyName
+      SubnetId: !Ref mySubnetIDs
+Outputs:
+    1stInstanceID: 
+      Value: !Ref raghibInstance
+      Description: Raghib's Instance
+    2ndInstanceID: 
+      Value: !Ref vraInstance
+      Description: Common Instance
