@@ -75,3 +75,9 @@ spec:
   selector:
     app: nginx-test-pod
 ```
+
+## Restrict User access to specific namespace in kubernetes
+The ClusterRole permissions are taking as base permissions for any namespace and Role permissions for specific namespaces are added to that. [[1](https://stackoverflow.com/questions/55917702/restrict-user-to-access-only-one-service-in-a-namespace)]
++ [Create Service Account](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L2-L7)
++ [Create Role in different namespace](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L9-L107)
++ [Create Rolebinding in different namespace](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L109-L171)
