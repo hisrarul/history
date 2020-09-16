@@ -48,3 +48,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA otherthanpublicschema TO "yourusername";
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "yourusername";
 ```
 
+#### Default permission on tables of public schema
+When you delete your table XYZ and create table with the same name, the user lose permission on that table. In such cases, default permission is very useful to retain the access of user in new table XYZ.
+```
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES to "yourusername";
+```
