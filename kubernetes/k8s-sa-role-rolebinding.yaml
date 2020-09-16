@@ -7,7 +7,6 @@ metadata:
   namespace: cocci
 
 # Create role `bacteria-shape-config` in cocci namespace
-```
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -31,7 +30,6 @@ rules:
   - configmaps
   verbs:
   - update
-```
 
 # Create role `bacteria-shape-config` in in `bacilli` namespace
 ---
