@@ -1,0 +1,173 @@
+# Create service account/user `diplicocci` in `cocci` namespace
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: diplicocci
+  namespace: cocci
+
+# Create role `bacteria-shape-config` in cocci namespace
+```
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bacteria-shape-config
+  namespace: cocci
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+```
+
+# Create role `bacteria-shape-config` in in `bacilli` namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bacteria-shape-config
+  namespace: bacilli
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+
+# Create role `bacteria-shape-config` in `spirilla` namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bacteria-shape-config
+  namespace: spirilla
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+
+# Create role `bacteria-shape-config` in vibrio namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bacteria-shape-config
+  namespace: vibrio
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+  
+# Create rolebinding `diplococci-rb` and bind role `bacteria-shape-config` with service account `diplococci` to provide access in cocci namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: diplococci-rb
+  namespace: cocci
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bacteria-shape-config
+subjects:
+- kind: ServiceAccount
+  name: diplicocci
+  namespace: cocci
+
+# Create rolebinding `diplococci-rb` and bind role `bacteria-shape-config` with service account `diplococci` to provide access in bacilli namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: diplococci-rb
+  namespace: bacilli
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bacteria-shape-config
+subjects:
+- kind: ServiceAccount
+  name: diplicocci
+  namespace: cocci
+
+# Create rolebinding `diplococci-rb` and bind role `bacteria-shape-config` with service account `diplococci` to provide access in spirilla namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: diplococci-rb
+  namespace: spirilla
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bacteria-shape-config
+subjects:
+- kind: ServiceAccount
+  name: diplicocci
+  namespace: cocci
+
+# Create rolebinding `diplococci-rb` and bind role `bacteria-shape-config` with service account `diplococci` to provide access in spirilla namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: diplococci-rb
+  namespace: vibrio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bacteria-shape-config
+subjects:
+- kind: ServiceAccount
+  name: diplicocci
+  namespace: cocci
