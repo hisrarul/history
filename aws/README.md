@@ -1,81 +1,19 @@
-#### Restrict AWS console access to whitelisted IP address
-```
-{
-    "Version": "2012-10-17",
-    "Statement": {
-        "Effect": "Deny",
-        "Action": "*",
-        "Resource": "*",
-        "Condition": {
-            "NotIpAddress": {
-                "aws:SourceIp": [
-                    "192.0.2.0/24",
-                    "203.0.113.0/24"
-                ]
-            },
-            "Bool": {"aws:ViaAWSService": "false"}
-        }
-    }
-}
-```
+### Restrict AWS console access to whitelisted IP address
+* [Create IAM Policy](https://github.com/hisrarul/history/blob/master/aws/aws-console-restricted-from-vpn-ip.json) [1]
+* Attach it to the user or group.
 
-#### Disable access of all resources if mfa device is not attached
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowViewAccountInfo",
-            "Effect": "Allow",
-            "Action": "iam:ListVirtualMFADevices",
-            "Resource": "*"
-        },
-        {
-            "Sid": "AllowManageOwnVirtualMFADevice",
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateVirtualMFADevice",
-                "iam:DeleteVirtualMFADevice"
-            ],
-            "Resource": "arn:aws:iam::*:mfa/${aws:username}"
-        },
-        {
-            "Sid": "AllowManageOwnUserMFA",
-            "Effect": "Allow",
-            "Action": [
-                "iam:DeactivateMFADevice",
-                "iam:EnableMFADevice",
-                "iam:GetUser",
-                "iam:ListMFADevices",
-                "iam:ResyncMFADevice"
-            ],
-            "Resource": "arn:aws:iam::*:user/${aws:username}"
-        },
-        {
-            "Sid": "DenyAllExceptListedIfNoMFA",
-            "Effect": "Deny",
-            "NotAction": [
-                "iam:CreateVirtualMFADevice",
-                "iam:EnableMFADevice",
-                "iam:GetUser",
-                "iam:ListMFADevices",
-                "iam:ListVirtualMFADevices",
-                "iam:ResyncMFADevice",
-                "sts:GetSessionToken"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "BoolIfExists": {"aws:MultiFactorAuthPresent": "false"}
-            }
-        }
-    ]
-}
-```
+### Disable access of all resources if mfa device is not attached
+* [Create IAM Policy](https://github.com/hisrarul/history/blob/master/aws/aws-iam-policy-mfa-compulsory.json) [2]
+* Attach it to the user or group
 
-#### AWS region restriction
-https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-requested-region.html
+### AWS region restriction
+[Yet Not Tested](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-requested-region.html)
+
+### Install AWS Cloudwatch Agent on Ubuntu OS
+We are using system manager to login ec2 instances which needs cloudwatch agent to run on it.
+* [Install Cloudwatch agent from userdata](https://github.com/hisrarul/history/blob/master/aws/install-aws-cloudwatch-agent.sh)
 
 
 #### References
-* https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html
-* https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-mfa-only.html
+* [1] [Console access from restricted IP address](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html)
+* [2] [MFA mandatory for users](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-mfa-only.html)
