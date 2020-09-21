@@ -53,3 +53,12 @@ When you delete your table XYZ and create table with the same name, the user los
 ```
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES to "yourusername";
 ```
+
+#### Grant read access to single table
+* [Referenced](https://tableplus.com/blog/2018/04/postgresql-how-to-create-read-only-user.html)
+```
+CREATE USER "yourUsername" WITH PASSWORD 'yourPassword';
+GRANT CONNECT ON DATABASE yourDbName TO "yourUsername";
+GRANT USAGE ON SCHEMA yourSchemaName TO "yourUsername";
+GRANT SELECT ON yourTableName TO "yourUsername";
+```
