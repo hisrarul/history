@@ -7,7 +7,7 @@
 ```CREATE USER 'yourUsername' IDENTIFIED BY 'yourPassword';```
 
 #### Grant write access
-GRANT SELECT, INSERT, UPDATE, CREATE, CREATE VIEW, SHOW VIEW, TRIGGER ON `yourDbName`.* TO 'yourUsername'
+```GRANT SELECT, INSERT, UPDATE, CREATE, CREATE VIEW, SHOW VIEW, TRIGGER ON `yourDbName`.* TO 'yourUsername'```
 
 #### Grant read access
 ```GRANT SELECT ON `yourDbName`.* TO 'yourUsername'```
