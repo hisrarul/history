@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  namenode:
+    network_mode: host
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - /root/hadoop/data/namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=alpha-staging
+    env_file:
+      - ./hadoop.env
+
+  datanode:
+    network_mode: host
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    restart: always
+    ports:
+      - 9876:9876
+    volumes:
+      - /root/hadoop/data/datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "172.16.165.14:9870"
+    env_file:
+      - ./hadoop.env
