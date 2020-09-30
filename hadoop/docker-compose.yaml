@@ -10,9 +10,9 @@ services:
       - 9870:9870
       - 9000:9000
     volumes:
-      - /root/hadoop/data/namenode:/hadoop/dfs/name
+      - /data/namenode:/hadoop/dfs/name
     environment:
-      - CLUSTER_NAME=alpha-staging
+      - CLUSTER_NAME=local-server
     env_file:
       - ./hadoop.env
 
@@ -26,6 +26,6 @@ services:
     volumes:
       - /root/hadoop/data/datanode:/hadoop/dfs/data
     environment:
-      SERVICE_PRECONDITION: "172.16.165.14:9870"
+      SERVICE_PRECONDITION: "your_server_ip_address:9870"
     env_file:
       - ./hadoop.env
