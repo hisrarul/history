@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-vol-claim
+  namespace: nginx-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard      #Name of the storage class
+  resources:
+    requests:
+      storage: 1Gi                #minimize size of general purpose ebs volume in aws
