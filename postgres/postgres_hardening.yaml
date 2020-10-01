@@ -215,7 +215,71 @@
       dracut -f
       grub2-mkconfig -o /boot/grub2/grub.cfg
       grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
-  - name:
+  - name: Install pgbackrest
     yum:
-      name=pgbackrest
-      state=present
+      name: pgbackrest
+      state: present
+  - name: Install postgresql-devel
+    yum:
+      name: postgresql-devel
+      state: present
+  - name: Install centos-release-scl
+    yum:
+      name: centos-release-scl
+      state: present
+  - name: Install epel-release
+    yum:
+      name: epel-release
+      state: present
+  - name: Install gcc
+    yum:
+      name: gcc
+      state: present
+  - name: Install llvm5.0
+    yum:
+      name: llvm5.0
+      state: present
+  - name: Install llvm-toolset-7-clang
+    yum:
+      name: llvm-toolset-7-clang
+      state: present
+  - name: Ensure requirement 26
+    shell: |
+      echo "Ensure excessive function privileges are revoked"
+      sudo -u postgres -- psql -c "SELECT nspname, proname, proargtypes, prosecdef, rolname, proconfig FROM pg_proc p JOIN pg_namespace n ON p.pronamespace = n.oid JOIN pg_authid a ON a.oid = p.proowner WHERE prosecdef OR NOT proconfig IS NULL;"
+      echo "Use pg_permission extension to audit object permissions"
+      sudo -u postgres -- psql -c "select * from pg_available_extensions where name='pg_permission';"
+  - name: Ensure requirement 27
+    shell: |
+      echo "Make use of default roles"
+      sudo -u postgres -- psql -c "select rolname from pg_roles where rolsuper is true;"
+      echo "Ensure backend runtime parameters are configured correctly"
+      sudo -u postgres -- psql -c "SELECT name, setting FROM pg_settings WHERE context IN ('backend','superuser-backend') ORDER BY 1;"
+      echo "Ensure Postmaster Runtime Parameters are Configured"
+      sudo -u postgres -- psql -c "SELECT name, setting FROM pg_settings WHERE context = 'postmaster' ORDER BY 1;"
+      echo "Ensure SIGHUP Runtime Parameters are Configured"
+      sudo -u postgres -- psql -c "SELECT name, setting FROM pg_settings WHERE context = 'sighup' ORDER BY 1;"
+      echo "Ensure Superuser Runtime Parameters are Configured"
+      sudo -u postgres -- psql -c "SELECT name, setting FROM pg_settings WHERE context = 'superuser' ORDER BY 1;"
+      echo "Ensure user Runtime Parameters are Configured"
+      sudo -u postgres -- psql -c "SELECT name, setting FROM pg_settings WHERE context = 'user' ORDER BY 1;"
+      echo "Ensure SSL is enabled and configured correctly"
+      echo "Ensure the pgcrypto extension is installed and configured correctly"
+      sudo -u postgres -- psql -c "SELECT * FROM pg_available_extensions WHERE name='pgcrypto';"
+      echo "Ensure the backup and restore tool, 'pgBackRest', is installed and configured"
+      echo "Ensure PostgreSQL configuration files are outside the data cluster"
+      sudo -u postgres -- psql -c "select name, setting from pg_settings where name ~'.*_file$';"
+      echo "Ensure PostgreSQL subdirectory locations are outside the data cluster"
+      sudo -u postgres -- psql -c "select name, setting from pg_settings where (name ~ '_directory$' or name ~ '_tablespace');"
+      echo "Ensure miscellaneous configuration settings are correct"
+      sudo -u postgres -- psql -c "select name, setting from pg_settings where name in ('external_pid_file','unix_socket_directories','shared_preload_libraries','dynamic_library_path','local_preload_libraries','session_preload_libraries');"
+#  - name: Ensure requirement 28
+#    shell:
+#      echo "Ensure the set_user extension is installed"
+#      cd
+#      curl -L https://codeload.github.com/pgaudit/set_user/tar.gz/REL1_6_2 > set_user-1.6.2.tgz
+#      tar xf set_user-1.6.2.tgz
+#      cd set_user-REL1_6_2
+#      make USE_PGXS=1 install
+#      grep shared_preload_libraries ~postgres/11/data/postgresql.conf
+#      sudo -u postgres -- psql -c 'select * from pg_available_extensions where name = 'set_user';'
