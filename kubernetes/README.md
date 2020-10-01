@@ -81,3 +81,8 @@ The ClusterRole permissions are taking as base permissions for any namespace and
 + [Create Service Account](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L2-L7)
 + [Create Role in different namespace](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L9-L107)
 + [Create Rolebinding in different namespace](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-sa-role-rolebinding.yaml#L109-L171)
+
+## Update certificates in kubernetes
+[Resolved: error, server doesn't have resource type srv/pod/configmap](https://stackoverflow.com/questions/51308341/error-the-server-doesnt-have-a-resource-type-svc/64059054#64059054)
+
+```kubeadm alpha certs renew [flags]```[kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-alpha/#options)
