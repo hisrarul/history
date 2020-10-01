@@ -18,3 +18,6 @@ apt install python-pip -y
 pip install boto
 pip install awscli
 ```
+
+## Postgres server hardening using Ansible
+ansible-playbook [postgres_hardening.yaml](https://github.com/hisrarul/history/blob/master/postgres/postgres_hardening.yaml)
