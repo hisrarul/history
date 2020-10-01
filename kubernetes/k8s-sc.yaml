@@ -1,0 +1,15 @@
+
+apiVersion: v1
+items:
+- apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    annotations:
+      storageclass.kubernetes.io/is-default-class: "true"
+    name: standard
+  parameters:
+    type: gp2
+    zone: ap-south-1a
+  provisioner: kubernetes.io/aws-ebs
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
