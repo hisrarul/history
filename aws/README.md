@@ -18,6 +18,11 @@ We are using system manager to login ec2 instances which needs cloudwatch agent 
 * [Install Cloudwatch agent from userdata](https://github.com/hisrarul/history/blob/master/aws/install-aws-cloudwatch-agent.sh)
 ---
 
+## Create csv file and upload to s3 bucket using python [AWS Lambda]
+```
+python ../python/boto3/create_csv_upload_to_s3.py
+```
+
 #### References
 * [1] [Console access from restricted IP address](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html)
 * [2] [MFA mandatory for users](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-mfa-only.html)
