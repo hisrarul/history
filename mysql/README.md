@@ -17,3 +17,9 @@
 
 #### Change password 
 ```ALTER USER 'user'@'hostname' IDENTIFIED BY 'yourNewPassword';``` [Know more](https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html)
+
+
+## Run mysql and adminer using docker compose
+```
+docker-compose -f docker-compose-mysql.yaml up -d
+```
