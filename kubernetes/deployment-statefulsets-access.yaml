@@ -1,0 +1,24 @@
+#https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: deployment-access
+  namespace: demo
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+- apiGroups: ["extensions", "apps"]
+  resources: ["deployments","replicasets","deployments/scale"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: ["extensions", "apps"]
+  resources: ["statefulsets","statefulsets/scale"]
+  verbs: ["get", "list", "watch", "update", "patch"]
