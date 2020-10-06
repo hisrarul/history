@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'dbEndpoint', defaultValue: '172.17.0.1', description: 'Enter database endpoint url.')
+        string(name: 'dbLoginUser', defaultValue: 'user-israr', description: 'Enter the user that has permission to grant access.')
+        string(name: 'dbLoginPassword', defaultValue: '', description: 'Enter the password of the same user that has permission to grant access.')
+        choice(name: 'action', choices: ['create', 'read', 'write'], description: 'Pick the operation you want to perform')
+        string(name: 'username', defaultValue: 'staging', description: 'Create username or provide access to.')
+        string(name: 'dbname', defaultValue: 'prod', description: 'Enter the database name as space-separated value. e.g. prod ds')
+    }
+    stages {
+
+      stage ('Preparation') {
+          steps {
+                git 'https://github.com/hisrarul/history.git'
+          }
+      }
+
+       stage('DB Access') {
+           steps {
+               script {
+                sh "python ./python/mysql-grant-access.py ${params.dbEndpoint} ${params.dbLoginUser} ${params.dbLoginPassword} ${params.action} ${params.username} ${params.dbname}"
+               }
+           }
+           
+       }
+
+    }
+}
