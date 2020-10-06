@@ -1,5 +1,8 @@
 import pymysql.cursors
 import sys
+import random
+import string
+
 
 # Connect to the database
 connection = pymysql.connect(host='172.17.0.1',
@@ -13,7 +16,7 @@ connection = pymysql.connect(host='172.17.0.1',
 def createUser(username, password, querynum=0, updatenum=0, connection_num=0):
     try:
         with connection.cursor() as cursor:
-            createUser = "CREATE USER '{}'@'localhost' IDENTIFIED BY '{}';".format(username, password)
+            createUser = "CREATE USER '{}'@'%' IDENTIFIED BY '{}';".format(username, password)
             cursor.execute(createUser)
             print("User, {} has create successfully!".format(username))
     except:
@@ -68,15 +71,21 @@ def writeAccess(username, dbList):
         checkUser(username)
         with connection.cursor() as cursor:
             for dbName in dbList:
-                sql = "GRANT SELECT, INSERT, UPDATE, CREATE, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW, ALTER ROUTINE, TRIGGER ON `{}`.* TO '{}'@'%'".format(dbName, username)
+                sql = "GRANT SELECT, INSERT, UPDATE, CREATE, DELETE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW, ALTER ROUTINE, TRIGGER ON `{}`.* TO '{}'@'%'".format(dbName, username)
                 cursor.execute(sql)
                 print("Write access has been granted on {} to user, {}".format(dbName, username))
     except:
         print('Unable to provide write access!')
 
+def get_password_str(length):
+    letters = string.ascii_lowercase
+    password_str = ''.join(random.choice(letters) for i in range(length))
+    return password_str
+
 db = []
 action = sys.argv[1]
 username = sys.argv[2]
+password = get_password_str(14)
 
 for dbName in sys.argv[3:]:
     db.append(dbName)
@@ -84,10 +93,15 @@ for dbName in sys.argv[3:]:
 try:
     if action == 'read':
         readAccess(username, db)
+
+    if action == 'create':
+        createUser(username, password)
+        print("user password: {}".format(password))
+
     elif action == 'write':
         writeAccess(username, db)
     else:
-        print('Define actions, read or write!')
+        print('Define actions are create, read and write!')
 
     connection.close()
 except:
