@@ -1,17 +1,18 @@
 import pymysql.cursors
+import argparse
 import sys
 import random
 import string
 
+dbEndpoint = sys.argv[1]
+dbLoginUser = sys.argv[2]
+dbLoginPassword = sys.argv[3]
 
-# Connect to the database
-connection = pymysql.connect(host='172.17.0.1',
-                             user='root',
-                             password='example123',
-                             db='mysql',
+connection = pymysql.connect(host=dbEndpoint,
+                             user=dbLoginUser,
+                             password=dbLoginPassword,
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-
 
 def createUser(username, password, querynum=0, updatenum=0, connection_num=0):
     try:
@@ -83,25 +84,26 @@ def get_password_str(length):
     return password_str
 
 db = []
-action = sys.argv[1]
-username = sys.argv[2]
+action = sys.argv[4]
+username = sys.argv[5]
 password = get_password_str(14)
 
-for dbName in sys.argv[3:]:
+for dbName in sys.argv[6:]:
     db.append(dbName)
 
-try:
+try: 
     if action == 'read':
         readAccess(username, db)
 
-    if action == 'create':
+    elif action == 'create':
         createUser(username, password)
         print("user password: {}".format(password))
 
     elif action == 'write':
         writeAccess(username, db)
+
     else:
-        print('Define actions are create, read and write!')
+        print('mysql_access.py dbEndpoint dbLoginUser dbLoginPassword action=create/read/write username dbName1 dbName2')
 
     connection.close()
 except:
