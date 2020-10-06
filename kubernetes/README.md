@@ -36,8 +36,13 @@ The ClusterRole permissions are taking as base permissions for any namespace and
 python ../python/k8s-list-serviceaccount.py
 ```
 
-## List Pod in Kubernetes using python [[<=>]](https://raw.githubusercontent.com/kubernetes-client/python/master/kubernetes/docs/CoreV1Api.md)
+## List Pod in Kubernetes using python [[1]](https://raw.githubusercontent.com/kubernetes-client/python/master/kubernetes/docs/CoreV1Api.md)
 ```
 python ../python/k8s-list-pod.py
+```
+
+## Deployment and Statefulsets access in kubernetes
+```
+kubectl create -f k8s-deployment-statefulsets-access.yaml
 ```
 
