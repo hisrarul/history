@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('check') {
+            steps {
+                script {
+                    def props = readJSON text: '{ "key": "value", "name": "hisrarul", "a": "b" }', returnPojo: true
+                    assert props['key'] == "value"
+                    props.each { key, value ->
+                    echo "Walked through key $key and value $value"
+                    }
+                }
+            }
+        }
+    }
+}
