@@ -44,3 +44,6 @@ python ../python/k8s-list-serviceaccount.py
 kubectl create -f k8s-deployment-statefulsets-access.yaml
 ```
 
+## Create ClusterRole for Developers
+```kubectl create -f k8s-clusterrole-for-developers.yaml``` [[1]](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-clusterrole-for-developers.yaml#L1-L27)
+
