@@ -1,0 +1,27 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-editor
+  namespace: production
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - configmaps
+  - namespaces
+  - replicasets
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+- apiGroups: ["extensions", "apps"]
+  resources: ["deployment","deployment/scale","statefulsets","replicasets", "statefulsets/scale"]
+  verbs: ["get", "list", "watch", "update", "patch"]
