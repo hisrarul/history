@@ -8,3 +8,18 @@ chmod +x generate_md5.pl
 ```
 perl -e 'print("userPassword: {CRYPT}".crypt("secret","salt")."\n");'
 ```
+
+## Create openldap user
+```
+dn: cn=israrul,ou=delhi,dc=north,dc=india,dc=org
+cn: israrul
+employeenumber: 123456
+employeetype: Permanent
+mail: hisrarul@xyz.com
+mobile: 123456789012
+objectclass: inetOrgPerson
+objectclass: top
+sn: israrul
+uid: israrul
+userpassword: 123456
+```
