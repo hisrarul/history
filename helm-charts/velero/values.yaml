@@ -199,7 +199,11 @@ credentials:
   # Data to be stored in the Velero secret, if `useSecret` is
   # true and `existingSecret` is empty. This should be the contents
   # of your IAM credentials file.
-  secretContents: {}
+  secretContents:
+    cloud: |
+      [default]
+      aws_access_key_id = minio
+      aws_secret_access_key = minio123
   # additional key/value pairs to be used as environment variables such as "DIGITALOCEAN_TOKEN: <your-key>". Values will be stored in the secret.
   extraEnvVars:
     AWS_ACCESS_KEY_ID: YOURAWSACCESSKEY
