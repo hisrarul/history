@@ -112,6 +112,11 @@ velero install \
 velero backup-location create default --access-mode ReadWrite --bucket backup-bucket --provider aws
 ```
 
+#### Velero schedule create
+```
+velero schedule create velero-crd-backup --schedule="0 0 1 * *" --include-resources crd --ttl 720h0m0s
+```
+
 
 ### References:
 * https://github.com/jtblin/kube2iam
