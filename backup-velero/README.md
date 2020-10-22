@@ -107,6 +107,12 @@ velero install \
     --no-secret
 ```
 
+#### Velero backup-location create
+```
+velero backup-location create default --access-mode ReadWrite --bucket backup-bucket --provider aws
+```
+
+
 ### References:
 * https://github.com/jtblin/kube2iam
 * https://github.com/vmware-tanzu/velero
