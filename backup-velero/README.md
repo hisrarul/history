@@ -114,6 +114,7 @@ velero backup-location create default --access-mode ReadWrite --bucket backup-bu
 
 #### Velero schedule create
 ```
+## https://documentation.suse.com/suse-caasp/4.5/html/caasp-admin/backup-and-restore-with-velero.html
 velero schedule create velero-crd-backup --schedule="0 0 1 * *" --include-resources crd --ttl 720h0m0s
 ```
 
