@@ -14,3 +14,6 @@ curl -i -k -u guest:guest-password -X GET \
     '{Value of Location header from command response above}'
     
 ``` 
+
+#### Deploy and Configure a Single-Node Hadoop Cluster
+> Learnt from Linux Academy and Steps to follow [[1]](https://github.com/hisrarul/history/blob/master/hadoop/hadoop_single_node_cluster.md)
