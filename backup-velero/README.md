@@ -112,6 +112,11 @@ velero install \
 velero backup-location create default --access-mode ReadWrite --bucket backup-bucket --provider aws
 ```
 
+#### Velero backup create
+```
+velero backup create full-complete-backup-05-nov-2020 --include-namespaces='*' --include-resources='*' --default-volumes-to-restic=true
+```
+
 #### Velero schedule create
 ```
 ## https://documentation.suse.com/suse-caasp/4.5/html/caasp-admin/backup-and-restore-with-velero.html
