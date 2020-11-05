@@ -2,6 +2,7 @@
 
 
 #### Search all dashboards
+Reference: [[1]](https://grafana.com/docs/grafana/latest/http_api/create-api-tokens-for-org/)
 ```
 curl -H "Authorization: Bearer APIKEY_FROM_GRAFANA" https://grafana_url/api/search\?query\=\&
 ```
