@@ -19,3 +19,24 @@ app:
     - '"/var/log/containers/kube*"'
     - '"/var/log/containers/tiller*"'
 ```
+
+#### Helm basic commands
+```
+# Search nginx in helm hub
+helm search hub nginx
+
+# Add a repo in helm
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# Search nginx in repo
+helm search repo nginx
+
+# Download the helm chart
+helm pull bitnai/nginx --untar=true
+
+# Install helm chart
+helm install helm-nginx bitnami/nginx
+
+# Helm upgrade chart
+helm upgrade --install <release_name> <chart_name> -f <chart_dir/values.yaml> -f <chart_dir/secrets.yaml> --namespace <ns>
+```
