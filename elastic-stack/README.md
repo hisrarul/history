@@ -35,3 +35,6 @@ PUT /_snapshot/your_s3_respository/your_backup_name/?pretty
   "include_global_state": false
 }
 ```
+
+## Add your own SSL certificates to Open Distro for Elasticsearch
++ [Detailed Steps](https://github.com/hisrarul/history/blob/master/elastic-stack/renew_certificates.md)
