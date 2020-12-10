@@ -36,5 +36,18 @@ PUT /_snapshot/your_s3_respository/your_backup_name/?pretty
 }
 ```
 
+## Change replica count
+
+#### Create template for replica count
+```
+#It is applicable on new indices starting with security-auditlog
+curl -XPUT -k -u 'username:password' https://localhost:9200/_template/zeroreplicas -H 'Content-Type: application/json' -d '{"template" : "*", "index_patterns": ["security-auditlog-*"], "settings" : { "number_of_shards": 1, "number_of_replicas" : 0 } }}'
+```
+
+#### Change the replica count for existing index
+```
+curl -X PUT -k -u "$ELASTIC_USERNAME:$ELASTIC_PASSWORD"  https://localhost:9200/security-auditlog-2017.10.30/_settings -H 'Content-Type: application/json' -d '{ "index": {"number_of_replicas": 0 } }'
+```
+
 ## Add your own SSL certificates to Open Distro for Elasticsearch
 + [Detailed Steps](https://github.com/hisrarul/history/blob/master/elastic-stack/renew_certificates.md)
