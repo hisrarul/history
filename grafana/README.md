@@ -59,3 +59,9 @@ client_secret = 0ldS3cretKey
 rendering_ignore_https_errors = true
 
 ```
+
+
+#### Encode ldap.toml file using base64
+```
+base64 ldap_updated.toml | tr -d '\n'
+```
