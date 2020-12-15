@@ -23,3 +23,23 @@ sn: israrul
 uid: israrul
 userpassword: 123456
 ```
+
+#### Disable anonnymous login in k8s
+```
+# Ref https://gist.github.com/shichao-an/d327006a9bed25fcfed4
+# ldapadd -Y EXTERNAL -H ldapi:/// -f ldap_disable_bind_anon.ldif
+dn: cn=config
+changetype: modify
+add: olcDisallows
+olcDisallows: bind_anon
+
+dn: cn=config
+changetype: modify
+add: olcRequires
+olcRequires: authc
+
+dn: olcDatabase={-1}frontend,cn=config
+changetype: modify
+add: olcRequires
+olcRequires: authc
+```
