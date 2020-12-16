@@ -43,3 +43,6 @@ changetype: modify
 add: olcRequires
 olcRequires: authc
 ```
+
+### Ldap password policy explanation
+Referred: [[1]](https://www.zytrax.com/books/ldap/ch6/ppolicy.html#pwdpolicyattributes)
