@@ -46,3 +46,6 @@ olcRequires: authc
 
 ### Ldap password policy explanation
 Referred: [[1]](https://www.zytrax.com/books/ldap/ch6/ppolicy.html#pwdpolicyattributes)
+
+### Backup openldap user database
+slapcat -b "dc=apache,dc=org" -l backup.ldif
