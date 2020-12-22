@@ -49,5 +49,11 @@ curl -XPUT -k -u 'username:password' https://localhost:9200/_template/zeroreplic
 curl -X PUT -k -u "$ELASTIC_USERNAME:$ELASTIC_PASSWORD"  https://localhost:9200/security-auditlog-2017.10.30/_settings -H 'Content-Type: application/json' -d '{ "index": {"number_of_replicas": 0 } }'
 ```
 
+#### Error: Request entity too large
+```
+    #Add this value in kibana.yml
+    server.maxPayloadBytes: 10000000
+```
+
 ## Add your own SSL certificates to Open Distro for Elasticsearch
 + [Detailed Steps](https://github.com/hisrarul/history/blob/master/elastic-stack/renew_certificates.md)
