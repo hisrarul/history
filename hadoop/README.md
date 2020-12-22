@@ -17,3 +17,12 @@ curl -i -k -u guest:guest-password -X GET \
 
 #### Deploy and Configure a Single-Node Hadoop Cluster
 > Learnt from Linux Academy and Steps to follow [[1]](https://github.com/hisrarul/history/blob/master/hadoop/hadoop_single_node_cluster.md)
+
+#### Take the Hadoop backup to s3 bucket
+```
+#List the files in hdfs
+hadoop fs -ls hdfs://<hadoop_url>:<hadoop_path>/dir/sub-dir/
+
+#Copy the directories of hdfs to s3 bucket
+hadoop distcp hdfs://<hadoop_url>:<hadoop_path>/dir/sub-dir/ s3a://<s3-bucket-name>/<folder-s3-bucket>/
+```
