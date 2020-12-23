@@ -30,3 +30,13 @@ curl -k -X DELETE -u "username:password" "https://localhost:9200/.wazuh"
 8. Enter the wazuh master url with username and password
 9. Wait for some time, it should start reflecting data.
 ```
+
+### Search data in wazuh index
+```
+GET .wazuh/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
