@@ -48,6 +48,20 @@ curl -XPUT -k -u 'username:password' https://localhost:9200/_template/zeroreplic
 ```
 curl -X PUT -k -u "$ELASTIC_USERNAME:$ELASTIC_PASSWORD"  https://localhost:9200/security-auditlog-2017.10.30/_settings -H 'Content-Type: application/json' -d '{ "index": {"number_of_replicas": 0 } }'
 ```
+
+#### Using kibana dashboard
+```
+GET _cat/indices
+
+GET logstash-2020.12.28/_settings
+
+PUT logstash-2020.12.28/_settings 
+{
+  "index": {
+    "number_of_replicas" : "0"
+  }
+}
+```
 ---
 
 ### Error: Request entity too large
