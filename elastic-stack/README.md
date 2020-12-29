@@ -90,3 +90,11 @@ GET .kibana_1/_search?_source=false&size=4
   }
 }
 ```
+
+### Error: [2019-03-26T16:40:43,447][WARN ][o.e.m.j.JvmGcMonitorService] [fycetJG] [gc][527283] overhead, spent [763ms] collecting in the last [1s]
+Ref: [[1]](https://discuss.elastic.co/t/warn-message-elasticsearch/173975/3) [[2]](https://www.elastic.co/guide/en/elasticsearch/reference/current/tasks.html)
+```
+Possible solution: 
+1. Increase the heap size hain from jvm.option
+2. List the task and some of them need to take appropriate action. GET _tasks?group_by=parents
+``` 
