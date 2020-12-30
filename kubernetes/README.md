@@ -47,3 +47,11 @@ kubectl create -f k8s-deployment-statefulsets-access.yaml
 ## Create ClusterRole for Developers
 ```kubectl create -f k8s-clusterrole-for-developers.yaml``` [[1]](https://github.com/hisrarul/history/blob/master/kubernetes/k8s-clusterrole-for-developers.yaml#L1-L27) [[2]](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 
+### Error: release falco failed: namespaces "default" is forbidden: User "system:serviceaccount:kube-system:default" cannot get resource "namespaces" in API group "" in the namespace "default"
+```
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'      
+helm init --service-account tiller --upgrade
+```
+
