@@ -95,6 +95,17 @@ GET .kibana_1/_search?_source=false&size=4
 Ref: [[1]](https://discuss.elastic.co/t/warn-message-elasticsearch/173975/3) [[2]](https://www.elastic.co/guide/en/elasticsearch/reference/current/tasks.html)
 ```
 Possible solution: 
-1. Increase the heap size hain from jvm.option
-2. List the task and some of them need to take appropriate action. GET _tasks?group_by=parents
+1. Increase the heap size from jvm.option
+2. List the task and take appropriate action. GET _tasks?group_by=parents
 ``` 
+
+#### [error] [out_es] could not pack/validate JSON response
+Ref: [[1]](https://github.com/fluent/fluent-bit/issues/2078)
+```
+PUT _cluster/settings
+{
+    "persistent": {
+        "action.auto_create_index": "true" 
+    }
+}
+```
