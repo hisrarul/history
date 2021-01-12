@@ -9,7 +9,7 @@ find /etc/kubernetes/pki/ -type f -name "*.crt" -print|egrep -v 'ca.crt$'|xargs 
 
 
 ### Create a copy of certificates
-Ref: [IBM Doc Cluster 1.14](https://www.ibm.com/support/knowledgecenter/SSCKRH_1.0.3/platform/t_certificate_renewal_k14.html)
+Ref: [IBM Doc Cluster 1.14](https://www.ibm.com/support/knowledgecenter/SSCKRH_1.0.3/platform/t_certificate_renewal_k14.html)  [StackOverFlow](https://stackoverflow.com/questions/56859416/kubernetes-failure-loading-apiserver-etcd-client-certificate-the-certificate-h)
 ```
 mkdir -p $HOME/old_certs/pki
 cp -p /etc/kubernetes/pki/*.* $HOME/old_certs/pki
