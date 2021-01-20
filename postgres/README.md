@@ -64,7 +64,29 @@ GRANT SELECT ON yourTableName TO "yourUsername";
 
 #### Postgres database dump and restore
 ```
-https://www.postgresql.org/docs/9.4/backup-dump.html
+#https://www.postgresql.org/docs/9.4/backup-dump.html
 pg_dump -h endpoint -U username -d dbname -W > dumpfile
 psql -h endpoint -U username -d dbname -W dbname < dumpfile
 ```
+
+#### Postgres Role based authentication
+```
+#only owner of the database can grant the permission or change the owner who has permission.
+CREATE USER "username" WITH PASSWORD "yourpassword";
+CREATE ROLE roleviewer;
+GRANT roleviewer to username;
+GRANT USAGE ON SCHEMA public to roleviewer;
+GRANT SELECT TO ALL TABLES IN SCHEMA public to viewer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO roleviewer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO roleviewer;
+
+#permission on tables present other than in public schema
+GRANT USAGE ON SCHEMA otherthanpublicschema to roleviewer;
+GRANT SELECT TO ALL TABLES IN SCHEMA otherthanpublicschema to viewer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA otherthanpublicschema GRANT SELECT ON TABLES TO roleviewer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA otherthanpublicschema GRANT SELECT ON SEQUENCES TO roleviewer;
+
+#some other cases
+#https://dba.stackexchange.com/questions/117109/how-to-manage-default-privileges-for-users-on-a-database-vs-schema/117661#117661
+ALTER DEFAULT PRIVILEGES FOR USER username IN SCHEMA public GRANT SELECT ON TABLES TO roleviewer;
+ALTER DEFAULT PRIVILEGES FOR ROLE role-name IN SCHEMA public GRANT SELECT ON SEQUENCES TO roleviewer;
