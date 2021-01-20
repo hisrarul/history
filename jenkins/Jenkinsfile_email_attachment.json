@@ -1,5 +1,11 @@
 #https://medium.com/@gustavo.guss/jenkins-send-email-with-attachment-cec1e052583a
 
+HTML file in body: https://support.cloudbees.com/hc/en-us/articles/226237768-How-to-embed-html-report-in-email-body-using-Email-ext-plugin-
+Need to add below lines in the stage.
+        emailext mimeType: 'text/html',
+        body: '${FILE, path="myfile.html"}',
+
+
 pipeline {
     agent any
     
