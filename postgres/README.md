@@ -61,3 +61,10 @@ GRANT CONNECT ON DATABASE yourDbName TO "yourUsername";
 GRANT USAGE ON SCHEMA yourSchemaName TO "yourUsername";
 GRANT SELECT ON yourTableName TO "yourUsername";
 ```
+
+#### Postgres database dump and restore
+```
+https://www.postgresql.org/docs/9.4/backup-dump.html
+pg_dump -h endpoint -U username -d dbname -W > dumpfile
+psql -h endpoint -U username -d dbname -W dbname < dumpfile
+```
