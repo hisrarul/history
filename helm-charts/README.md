@@ -40,3 +40,6 @@ helm install helm-nginx bitnami/nginx
 # Helm upgrade chart
 helm upgrade --install <release_name> <chart_name> -f <chart_dir/values.yaml> -f <chart_dir/secrets.yaml> --namespace <ns>
 ```
+
+#### Error: found in Chart.yaml, but missing in charts/ directory: kube-state-metrics, prometheus-node-exporter, grafana
+```helm dependency update```
