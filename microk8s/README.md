@@ -4,3 +4,12 @@
 ```
 Adding --allow-privileged into /var/snap/microk8s/current/args/kube-apiserver and microk8s.stop; microk8s.start resolves it.
 ```
+
+
+#### Decrypt encrypted file
+```
+gpg --import private.key
+sops -d testing.yaml 
+
+helm secrets dec testing.yaml
+```
