@@ -1,0 +1,42 @@
+FROM node:14
+
+ARG SSH_KEY
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)
+# Note that, rather than copying the entire working directory, we are only copying the package.json and package-lock.json files.
+# This allows us to take advantage of cached Docker layers
+# Source: http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
+COPY package*.json ./
+
+
+# Accessing private repo
+# Few node packages are available in private repository which are required during npm ci
+# Saving the private_key in .ssh/id_rsa file
+# Ref: https://vsupalov.com/build-docker-image-clone-private-repo-ssh-key/#:~:text=Update%3A%20there's%20a%20new%2C%20convenient,repository%2C%20it%20might%20stick%20around
+# Ref2: https://sanderknape.com/2019/06/installing-private-git-repositories-npm-install-docker/
+
+RUN mkdir /root/.ssh/
+RUN echo "${SSH_KEY}" > /root/.ssh/id_rsa
+RUN chmod 400 /root/.ssh/id_rsa
+RUN touch /root/.ssh/known_hosts
+RUN ssh-keyscan gitlab.com >> /root/.ssh/known_hosts
+
+# Install nodemon
+RUN npm i -g nodemon
+
+# The npm ci command, helps provide faster, reliable, reproducible builds for production environments
+# Source: https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
+RUN npm ci
+
+# Remove private key
+RUN rm -rf /root/.ssh/id_rsa
+
+# Bundle app source
+COPY . .
+
+EXPOSE 4471
+CMD [ "npm", "run", "start:docker:watch" ]
