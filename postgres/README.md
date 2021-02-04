@@ -76,13 +76,13 @@ CREATE USER "username" WITH PASSWORD "yourpassword";
 CREATE ROLE roleviewer;
 GRANT roleviewer to username;
 GRANT USAGE ON SCHEMA public to roleviewer;
-GRANT SELECT TO ALL TABLES IN SCHEMA public to viewer;
+GRANT SELECT ON ALL TABLES IN SCHEMA public to viewer;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO roleviewer;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO roleviewer;
 
 #permission on tables present other than in public schema
 GRANT USAGE ON SCHEMA otherthanpublicschema to roleviewer;
-GRANT SELECT TO ALL TABLES IN SCHEMA otherthanpublicschema to viewer;
+GRANT SELECT ON ALL TABLES IN SCHEMA otherthanpublicschema to viewer;
 ALTER DEFAULT PRIVILEGES IN SCHEMA otherthanpublicschema GRANT SELECT ON TABLES TO roleviewer;
 ALTER DEFAULT PRIVILEGES IN SCHEMA otherthanpublicschema GRANT SELECT ON SEQUENCES TO roleviewer;
 
@@ -90,3 +90,49 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA otherthanpublicschema GRANT SELECT ON SEQUENC
 #https://dba.stackexchange.com/questions/117109/how-to-manage-default-privileges-for-users-on-a-database-vs-schema/117661#117661
 ALTER DEFAULT PRIVILEGES FOR USER username IN SCHEMA public GRANT SELECT ON TABLES TO roleviewer;
 ALTER DEFAULT PRIVILEGES FOR ROLE role-name IN SCHEMA public GRANT SELECT ON SEQUENCES TO roleviewer;
+```
+
+#### Change table owner
+```
+# check owner of tables in other schema
+\dt otherthanpublicschema.;
+
+# Alter owner of table in other schema, after executing below command new owner can grant the permission to other roles or users.
+ALTER TABLE otherthanpublicschema.table_name OWNER TO newuserOrrole;
+
+OR
+
+ALTER TABLE <tablename> OWNER TO <username>
+```
+
+#### Alter schema
+```
+ALTER SCHEMA name RENAME TO newname
+ALTER SCHEMA name OWNER TO newowner
+
+# Check schema permission
+SELECT *, "oid" FROM "pg_namespace" LIMIT 50
+```
+
+#### All about sequence
+```
+SELECT * FROM information_schema.sequences;
+```
+
+#### Summary of Access Privileges
+Ref : https://www.postgresql.org/docs/13/ddl-priv.html
+|Object Type |	All Privileges | Default PUBLIC Privileges | psql Command |
+|------|---------|--------|---------|
+| DATABASE	| CTc	| Tc	| \l |
+| DOMAIN	| U	| U	| \dD+ |
+| FUNCTION or PROCEDURE | X	| X	| \df+|
+FOREIGN DATA WRAPPER	| U	| none	| \dew+
+FOREIGN SERVER	| U	| none	| \des+
+LANGUAGE	| U	| U	| \dL+
+LARGE OBJECT	| rw |	none	 
+SCHEMA	| UC	| none	| \dn+
+SEQUENCE | rwU	| none	| \dp
+TABLE (and table-like objects)	| arwdDxt |	none |	\dp
+Table column	| arwx |	none |	\dp
+TABLESPACE	| C	| none	| \db+
+TYPE	| U	| U	| \dT+
