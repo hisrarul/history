@@ -62,3 +62,12 @@ kubectl get pod -n <namespace> -o=jsonpath='{range .items[*]}{.spec.containers[]
 OR
 kubectl get pod -n <namespace> -o=jsonpath='{.items[*].spec.containers[].image}'
 ```
+
+#### Error from server (Forbidden): error when creating "STDIN": pods "pause" is forbidden: unable to validate against any pod security policy: []
+```
+# Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+# provide the necessary permission 
+kubectl create rolebinding <rolebinding-psp-privileged> --clusterrole=psp:privileged --serviceaccount=<service_account_name>:default --namespace <namespace>
+```
+
+
