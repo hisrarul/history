@@ -55,3 +55,10 @@ kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"templat
 helm init --service-account tiller --upgrade
 ```
 
+#### List of images of a pod
+```
+#https://kubernetes.io/docs/reference/kubectl/jsonpath/
+kubectl get pod -n <namespace> -o=jsonpath='{range .items[*]}{.spec.containers[].image}'
+OR
+kubectl get pod -n <namespace> -o=jsonpath='{.items[*].spec.containers[].image}'
+```
