@@ -109,3 +109,53 @@ PUT _cluster/settings
     }
 }
 ```
+
+### Copy indices from one to another (Reindex)
+**1. Create mapping**
+```
+PUT qa_test_amazon
+{"mappings" : {
+      "doc" : {
+        "properties" : {
+          "user" : {
+            "type" : "keyword"
+          },
+          "offer" : {
+            "type" : "keyword"
+          },
+          "cashback" : {
+            "type" : "keyword"
+          },
+          "offer_id" : {
+            "type" : "integer"
+          },
+          "product_id" : {
+            "type" : "integer"
+          },
+          "score" : {
+            "type" : "float"
+          }
+        }
+      }
+    }}
+```
+**2. Reindex from source**
+```
+POST _reindex
+{
+  "source": {
+    "index": "qa_test_amazon"
+  },
+  "dest": {
+    "index": "dev_test_amazon"
+  }
+}
+```
+
+**3. verify total hits**
+```
+GET dev_test_amazon/_search
+{
+  "size": 20
+}
+```
