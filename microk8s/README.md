@@ -13,3 +13,13 @@ sops -d testing.yaml
 
 helm secrets dec testing.yaml
 ```
+
+
+#### Access microk8s cluster using kubectl
+```
+mkdir ~/.kube
+chmod 755 ~/.kube
+chmod 600 ~/.kube/config
+cp /var/snap/microk8s/current/credentials/client.config ~/.kube/config
+kubectl get pod
+```
