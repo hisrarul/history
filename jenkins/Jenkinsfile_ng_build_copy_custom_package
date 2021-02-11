@@ -1,0 +1,63 @@
+def checkString(value) {
+    if ( value != null && !value.isEmpty() && !value.trim().isEmpty() && value != "null"){
+        return true
+    }else {
+        return false
+    }
+}
+def parametersMaps = [:]
+def buildAndDeploy=true
+pipeline {
+    agent any
+    parameters { 
+        booleanParam(name: 'copyToPod', defaultValue: true, description: '')
+        string(name: 'environment', defaultValue: 'test', description: '')
+    }
+    stages {
+        stage('Checkout frontend application') {
+            steps {
+                git branch: '<branchName>', changelog: false, credentialsId: '<jenkinsCredentials>', poll: false, url: 'git@<github-url>'
+            }
+        }
+        stage ('get environments settings from parameters.json file'){
+          steps {
+            script {
+              def jsondata = readJSON file: 'jenkins/parameters.json'
+              println jsondata
+              if (jsondata.get('environment')) {
+                  jsondata.get('environment').get("${params.environment}").each { key, value ->
+                  parametersMaps[key]=value
+                }
+              } else {
+                error "environment setting does not exist on parameters.json"
+              }
+            }
+          }
+        }
+        stage('copy custom directories for ng build after npm ci') {
+          environment {
+            GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
+          }
+          when {
+              expression {
+                  "${params.copyToPod}" && buildAndDeploy==true
+              }
+          }
+          steps {
+            script {
+              sh "mkdir ${parametersMaps.dockerFileDirectory}/node-app"
+              dir("${parametersMaps.dockerFileDirectory}/node-app") {
+              if (checkString(parametersMaps.gitSshCreds)){
+                sshagent(["${parametersMaps.gitSshCreds}"]) {
+                  sh "git clone -b dev git@github.com/hisrarul/app-ui-project.git"
+                  sh "cp -rv app-ui-project/@custom-package node_modules"
+                }
+              } else {
+                sh "check the visa repo access.."
+                }
+              }
+            }
+          }
+        }
+    }
+}
