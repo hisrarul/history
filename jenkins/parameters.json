@@ -1,6 +1,6 @@
 {
   "environment": {
-    "qa-fed": {
+    "test": {
       "dockerRegistryHostName": "<docker-registry-url>",
       "dockerImageName": "<env>/<application>",
       "dockerRegistryCreds": "<docker-registry-credentials>",
