@@ -1,0 +1,16 @@
+{
+  "environment": {
+    "qa-fed": {
+      "dockerRegistryHostName": "<docker-registry-url>",
+      "dockerImageName": "<env>/<application>",
+      "dockerRegistryCreds": "<docker-registry-credentials>",
+      "helmChartName": "<helm-chart-name>",
+      "helmChartNamespace": "<namespace>",
+      "helmChartFolder": "<k8s-chart-location>",
+      "gitSshCreds": "<git-credential-of-project-in-jenkins>",
+      "dockerFileDirectory": "<docker-file-path-of-project>",
+      "dockerFileName": "Dockerfile",
+      "dockerImageVersionUpgrade": <true/false-to-be-used-for-docker-push>,
+      "dryRun": <true/false-for-helm-upgrade>
+    }
+}
