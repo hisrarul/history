@@ -49,11 +49,12 @@ pipeline {
               dir("${parametersMaps.dockerFileDirectory}/node-app") {
               if (checkString(parametersMaps.gitSshCreds)){
                 sshagent(["${parametersMaps.gitSshCreds}"]) {
-                  sh "git clone -b dev git@github.com/hisrarul/app-ui-project.git"
+                  sh "git clone -b test git@github.com/hisrarul/app-ui-project.git"
+                  //Copy custom-package to node_modules directory
                   sh "cp -rv app-ui-project/@custom-package node_modules"
                 }
               } else {
-                sh "check the visa repo access.."
+                sh "check the project repo access.."
                 }
               }
             }
