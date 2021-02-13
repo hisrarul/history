@@ -26,17 +26,20 @@ Containers are designed to run specific and then exit.
 docker build -t docker-sleep .
 
 #Here, the value of sleep is hard coded so container will run for 5 sec and exit.
-#We don't have option to change the sleep time duruing execution docker run docker-sleep
+#We don't have option to change the sleep time duruing execution **docker run docker-sleep sleep 10**
 FROM ubuntu
-CMD sleep 5
+CMD ["sleep", "5"]
 
-#To change the sleep time during **docker run docker-sleep**, we use entrypoint. It allow us to append argument in the command for e.g(docker run docker-sleep 10)
+#To change the sleep time during **docker run docker-sleep 10**, we use entrypoint. It allow us to append argument in the command for e.g(docker run docker-sleep 10)
 #Problem, if we don't pass sleep time in the command it will through error
 FROM ubuntu
-ENTRYPOINT sleep
+ENTRYPOINT ["sleep"]
 
 #To solve above problem, we can use both cmd and entrypoint
 FROM ubuntu
-ENTRYPOINT sleep
-CMD sleep 5
+ENTRYPOINT ["sleep"]
+CMD ["5"]
+
+To overwrite the entrypoint we can use it in the cli
+docker run --entrypoint sleep2.0 docker-sleep 10
 ```
