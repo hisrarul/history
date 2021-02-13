@@ -14,7 +14,7 @@
     </tr>
     <tr>
       <td>Get</td>
-      <td>Kubectl get deployment</td>
+      <td>kubectl get deployment</td>
     </tr>
     <tr>
       <td rowspan="2">Update</td>
