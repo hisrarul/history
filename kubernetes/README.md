@@ -55,15 +55,17 @@ kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"templat
 helm init --service-account tiller --upgrade
 ```
 
-#### List of images of a pod
+### List of images of a pod
 ```
 #https://kubernetes.io/docs/reference/kubectl/jsonpath/
 kubectl get pod -n <namespace> -o=jsonpath='{range .items[*]}{.spec.containers[].image}'
-OR
+-or-
 kubectl get pod -n <namespace> -o=jsonpath='{.items[*].spec.containers[].image}'
+-or-
+kubectl get po --all-namespaces -o json | jq -r '.items[].spec.containers[].image'
 ```
 
-#### Error from server (Forbidden): error when creating "STDIN": pods "pause" is forbidden: unable to validate against any pod security policy: []
+### Error from server (Forbidden): error when creating "STDIN": pods "pause" is forbidden: unable to validate against any pod security policy: []
 ```
 # Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
 # provide the necessary permission 
