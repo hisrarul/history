@@ -159,3 +159,43 @@ GET dev_test_amazon/_search
   "size": 20
 }
 ```
+
+#### open indices in elasticsearch
+```
+curl -s -XGET 'http://localhost:9200/_cat/indices?h=status,index'
+```
+
+#### Configure snapshot for the es indices backup
+```
+#create snotshot
+curl -XPUT 'http://localhost:9200/_snapshot/<s3_respository_name>?verify=false&pretty'  -H 'Content-Type: application/json' -d'
+{
+    "type" : "s3",
+    "settings" : {
+      "bucket" : "backup-elk-test",
+      "region" : "ap-south-1"
+    }
+}'
+
+#list repositories
+curl -XGET http://localhost:9200/_cat/repositories/
+
+#list configured snapshot
+curl -XGET http://localhost:9200/_snapshot/
+```
+
+#### Backup indices to s3 bucket
+```
+# using kibana dev tool
+PUT /_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false
+{
+   "indices": "index_1, index_2, index3",
+   "ignore_unavailable": true,
+   "include_global_state": false
+}
+```
+
+#### Restore snapshot from s3 bucket
+```
+curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/_restore
+```
