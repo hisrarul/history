@@ -176,12 +176,6 @@ curl -XPUT 'http://localhost:9200/_snapshot/<s3_respository_name>?verify=false&p
       "region" : "ap-south-1"
     }
 }'
-
-#list repositories
-curl -XGET http://localhost:9200/_cat/repositories/
-
-#list configured snapshot
-curl -XGET http://localhost:9200/_snapshot/
 ```
 
 #### Backup indices to s3 bucket
@@ -198,4 +192,18 @@ PUT /_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false
 #### Restore snapshot from s3 bucket
 ```
 curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/_restore
+```
+
+#### List repositories
+```curl -XGET http://localhost:9200/_cat/repositories/```
+
+#### List configured snapshot
+```curl -XGET http://localhost:9200/_snapshot/```
+
+#### List all snapshot/backup in es
+```GET _cat/snapshots/s3_respository?v```
+
+#### Read information about snapshot/backup
+```
+GET /_snapshot/s3_respository/snapshot-2021-02-25
 ```
