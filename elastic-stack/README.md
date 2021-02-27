@@ -192,6 +192,18 @@ PUT /_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false
 #### Restore snapshot from s3 bucket
 ```
 curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/_restore
+
+-or-
+
+#dev tool
+POST /_snapshot/<snapshot-repository>/<snapshot-name>/_restore?wait_for_completion=false
+{
+  "indices": "*",
+  "index_settings": {
+    "index.number_of_replicas": 0
+  }
+}
+
 ```
 
 #### List repositories
