@@ -187,6 +187,15 @@ PUT /_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false
    "ignore_unavailable": true,
    "include_global_state": false
 }
+
+-or-
+
+curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false -H 'Content-Type: application/json' -d'
+{
+   "indices": "index1,index2",
+   "ignore_unavailable": true,
+   "include_global_state": false
+}'
 ```
 
 #### Restore snapshot from s3 bucket
