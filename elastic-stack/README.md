@@ -200,7 +200,13 @@ curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name
 
 #### Restore snapshot from s3 bucket
 ```
-curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/_restore
+curl -XPOST http://localhost:9200/_snapshot/<snapshot-repository>/<snapshot-name>/_restore?wait_for_completion=false -H 'Content-Type: application/json' -d'
+{
+  "indices": "*",
+  "index_settings": {
+    "index.number_of_replicas": 0
+  }
+}'
 
 -or-
 
