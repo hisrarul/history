@@ -1,0 +1,51 @@
+{{- range $job, $val := .Values.cronjob.crons }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+labels: 
+{{ include "ias.labels" $ | indent 4 }}
+spec:
+  schedule: {{ .schedule | quote}}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+        {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with $.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 10 }}
+        {{- end }}
+          containers:
+          - image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+            name: {{ .name }}
+            command:
+            - node
+            - index
+            - "{{ .command }}"
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            ports:
+            - name: http
+              containerPort: {{ $.Values.service.port }}
+              protocol: TCP
+            env:
+              - name: ENV1
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ template "ias.fullname" $}}
+                    key: env1
+              - name: ENV2
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "ias.fullname" $}}
+                    key: env2
+---
+{{- end}}
