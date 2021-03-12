@@ -1,0 +1,10 @@
+cronjob:
+  crons:
+    "0":
+      name: cronjob0
+      command: "sleep 20"
+      schedule: "30 22 * * *"
+    "1":
+      name: cronjob1
+      command: "sleep 30"
+      schedule: "0 */1 * * *"
