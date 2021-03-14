@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "internalalertsystem.fullname" . }}
+  labels:
+{{ include "internalalertsystem.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "internalalertsystem.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "internalalertsystem.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "internalalertsystem.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SMTP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: smtp_host
+            - name: SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: smtp_port
+            - name: SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: smtp_username
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: smtp_password
+            - name: HDFS_ON_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: hdfs_on_env
+            - name: HDFS_HOST_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: hdfs_host_url
+            - name: SENDER_EMAIL_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: internalalertsystem
+                  key: sender_email_id
+            - name: EMAIL_RECIPIENT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: email_recipient
+            - name: TOTAL_HEALTH_CHECK
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "internalalertsystem.fullname" . }}
+                  key: total_health_check
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

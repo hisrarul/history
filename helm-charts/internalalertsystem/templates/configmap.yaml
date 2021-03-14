@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "internalalertsystem.fullname" . }}
+  labels:
+{{ include "internalalertsystem.labels" . | indent 4 }}
+data:
+  smtp_host: {{ .Values.config.smtp_host | quote }}
+  smtp_port: {{ .Values.config.smtp_port | quote }}
+  sender_email_id: {{ .Values.config.sender_email_id | quote }}
+  email_recipient: {{ .Values.config.email_recipient | quote }}
+  hdfs_on_env: {{ .Values.config.hdfs_on_env | quote }}
+  hdfs_host_url: {{ .Values.config.hdfs_host_url | quote }}
+  total_health_check: {{ .Values.config.total_health_check | quote }}
