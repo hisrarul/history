@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wopi-owncloud
+  name: wopi-owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wopi-owncloud
+  template:
+    metadata:
+      labels:
+        app: wopi-owncloud
+    spec:
+      containers:
+      - image: owncloud
+        name: owncloud
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wopi-owncloud
+  labels:
+    app: wopi-owncloud
+spec:
+  ports:
+    - port: 8080
+      targetPort: 80
+  selector:
+    app: wopi-owncloud
+  type: LoadBalancer
