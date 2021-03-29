@@ -19,3 +19,8 @@ az acr create --resource-group $RG --name $ACR --sku Basic --admin-enabled true
 cd js-docker
 az acr build --image js-docker:v1 --registry $ACR --file Dockerfile .
 ```
+
+#### create app service
+* using azure portal create app service
+* choose image source as acr
+* review and create
