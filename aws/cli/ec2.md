@@ -4,4 +4,8 @@
 ```
 vpc_id=<enter_vpc_id>
 aws ec2 describe-instances --filters Name=network-interface.vpc-id,Values=${vpc_id} --query 'Reservations[*].Instances[*].NetworkInterfaces[*].PrivateIpAddresses[*].PrivateIpAddress' --output text
+
+- or -
+
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateIpAddress]' --output text
 ```
