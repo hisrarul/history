@@ -33,3 +33,9 @@ WHERE    TABLE_SCHEMA = 'database_name'        #check schema name
 ```
 docker-compose -f docker-compose-mysql.yaml up -d
 ```
+
+#### Delete rows from table
+```
+DELETE FROM `<table_name>`
+WHERE ((`id` = '1') OR (`id` = '8'));
+```
