@@ -234,3 +234,9 @@ POST /_snapshot/<snapshot-repository>/<snapshot-name>/_restore?wait_for_completi
 ```
 GET /_snapshot/s3_respository/snapshot-2021-02-25
 ```
+
+#### Delete Snapshots
+```
+List the snapshot
+curl -X DELETE --key ./admin.key --cert ./admin.pem --cacert ./root-ca.pem https://<elasticsearch-server>:9200/_snapshot/<s3_respository>/<snapshot_name>
+```
