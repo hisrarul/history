@@ -1,0 +1,37 @@
+/*
+# Ref:
+# Install plugin ID: date-parameter for report date
+*/
+
+
+pipeline {
+    agent any
+    stages {
+        stage ('Build') {
+// For maven home to work, add "maven" name in Global Tool Configuration of Jenkins
+        environment {
+            mavenHome = tool 'maven'
+            }
+            steps {
+                sh """
+                    cd com.amazonUI.automation
+                    sed -i 's#DATAFILESROOTPATH#${WORKSPACE}#' test1.properties
+                    sed -i 's#FORYOUVERSION#${foryoubuildversion}#' test2.properties
+                    sed -i 's#ENTERENV#${foryouenv}#' test2.properties
+                    cat foryou.properties
+                    ${mavenHome}/bin/mvn clean test -DmappingSheet="test-data/amazonbrandwithoutlogos/mapping.csv" -DsuiteName="${bankName}"
+                """ 
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'com.amazonUI.automation/amazonwithoutlogos/*.*', onlyIfSuccessful: false
+            emailext attachLog: false, attachmentsPattern: 'com.amazonUI.automation/amazonwithoutlogos/*.csv',
+                mimeType: 'text/html',
+                body: '${FILE, path="com.amazonUI.automation/AmazonBrandWithoutLogo/report.htm"}',
+                subject: "${brand} ${env}: ${name} without brand logos - ${reportdate}",
+                to: 'hisrarul@gmail.com,foo-bar@gmail.com'
+            }
+        }
+}
