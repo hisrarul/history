@@ -48,7 +48,7 @@ nginx.ingress.kubernetes.io/auth-secret-type: auth-map
 ```
 
 #### 4. Repeat step 4
-[Click here](https://github.com/hisrarul/history/edit/master/ingress/k8s_ingress_secure.md#L22)
+[Click here](https://github.com/hisrarul/history/blob/master/ingress/k8s_ingress_secure.md#L22)
 
 Ref: 
 [Medium](https://medium.com/faun/securing-k8s-application-using-ingress-rule-nginx-ingress-controller-a819b0e11281), 
