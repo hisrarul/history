@@ -1,0 +1,76 @@
+{{- range $job, $val := .Values.cronjob.crons }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+labels: 
+{{ include "alphascaler.labels" $ | indent 4 }}
+spec:
+  schedule: {{ .schedule | quote}}
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          backoffLimit: 1
+          restartPolicy: Never
+        {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+          serviceAccountName: {{ template "alphascaler.serviceAccountName" $ }}
+        {{- with $.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 10 }}
+        {{- end }}
+          containers:
+          - image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+            name: {{ .name }}
+            command:
+            - python3
+            - scaler.py
+            args:
+            - '--action'
+            - "{{ .command }}"
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            securityContext:
+              runAsUser: 1000
+            env:
+              - name: API_AUTH_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "alphascaler.name" $ }}
+                    key: api_auth_key
+              - name: API_SERVER_WITH_PORT
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ template "alphascaler.fullname" $}}
+                    key: api_server_with_port
+              - name: DB_ENDPOINT
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ template "alphascaler.fullname" $}}
+                    key: db_endpoint
+              - name: DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "alphascaler.fullname" $}}
+                    key: db_user
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "alphascaler.fullname" $}}
+                    key: db_password
+              - name: DB_NAME
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ template "alphascaler.fullname" $ }}
+                    key: db_name
+---
+{{- end}}
