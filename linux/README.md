@@ -16,3 +16,8 @@ ssh-add <path to private SSH key>
 ```
 sed "s/$/,/" es-open-indices-qa.txt
 ```
+
+#### Use xargs to delete list of pods
+```
+kubectl get pod --all-namespaces -o wide | grep airflow-scheduler | awk '{print $2}' | xargs -I{} kubectl delete pod {} -n airflow
+```
