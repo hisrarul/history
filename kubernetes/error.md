@@ -59,3 +59,11 @@ spec:
   - emptyDir
   - projected
 ```
+#### 3. Error: container has runAsNonRoot and image has non-numeric user (adminer), cannot verify user is non-root
+```
+# Add securitycontext in the deployment or pod definition
+
+      securityContext:
+        runAsUser: 100
+        fsGroup: 101
+```
