@@ -21,3 +21,9 @@ sed "s/$/,/" es-open-indices-qa.txt
 ```
 kubectl get pod --all-namespaces -o wide | grep airflow-scheduler | awk '{print $2}' | xargs -I{} kubectl delete pod {} -n airflow
 ```
+
+
+#### Ldap search
+```
+ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config olcDatabase=\*
+```
