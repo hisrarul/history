@@ -27,3 +27,14 @@ kubectl get pod --all-namespaces -o wide | grep airflow-scheduler | awk '{print 
 ```
 ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config olcDatabase=\*
 ```
+
+#### SSH to private machine using Jumphost
+```
+Ref: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+eval $(ssh-agent)
+
+ssh-add <ssh-key.pem>
+
+ssh username@<host-with-private-ip> -p 22 -o ConnectTimeout=60 -o ConnectionAttempts=10 -o StrictHostKeyChecking=no -o ProxyCommand="ssh -p 22 -W %h:%p <username>@<jumphost>"
+```
