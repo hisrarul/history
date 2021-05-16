@@ -21,6 +21,11 @@ This [Helm](https://github.com/kubernetes/helm) chart installs [Harbor](https://
 helm repo add harbor https://helm.goharbor.io
 ```
 
+### Download helm chart
+```bash
+helm fetch harbor/harbor --untar
+```
+
 ### Configure the chart
 
 The following items can be set via `--set` flag during installation or configured by editing the `values.yaml` directly(need to download the chart first).
