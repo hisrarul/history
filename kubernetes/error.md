@@ -67,3 +67,9 @@ spec:
         runAsUser: 100
         fsGroup: 101
 ```
+
+#### 4. executing setns process caused exit status 1 unknown
+```bash
+1. If your nodes are part of autoscaling group then restart it
+Exact error: https://github.com/moby/moby/issues/40399
+```
