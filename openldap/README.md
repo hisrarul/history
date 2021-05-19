@@ -49,3 +49,9 @@ Referred: [[1]](https://www.zytrax.com/books/ldap/ch6/ppolicy.html#pwdpolicyattr
 
 ### Backup openldap user database
 slapcat -b "dc=apache,dc=org" -l backup.ldif
+
+### Test the LDAP configuration
+Referred: [[1]](https://docs.thoughtspot.com/6.3/admin/setup/test-ldap.html)
+```bash
+ldapsearch -x -h 192.168.2.61 -p 389 -D "testuser@ldap.thoughtspot.com" -W -b "dc=ldap,dc=thoughtspot,dc=com" cn
+```
