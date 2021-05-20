@@ -1,0 +1,21 @@
+version: "3.3"
+   
+services:
+  csvserver:
+    image: infracloudio/csvserver:latest
+    volumes:
+      - $PWD/inputFile:/csvserver/inputdata:z
+    env_file:
+     - envvar
+    ports:
+    - "9393:9300"
+
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    command: "--config.file=/etc/prometheus/prometheus.yaml"
+    volumes:
+      - "./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro"
+    ports:
+      - "9090:9090"
+    depends_on:
+      - csvserver
