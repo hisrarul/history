@@ -66,10 +66,12 @@ kubectl get po --all-namespaces -o json | jq -r '.items[].spec.containers[].imag
 ```
 
 ### List images of deployments and statefulsets
-```
+```bash
 kubectl get deployment --all-namespaces -o json | jq -r '.items[].spec.template.spec.containers[].image'
 -or-
 kubectl get statefulsets --all-namespaces -o json | jq -r '.items[].spec.template.spec.containers[].image'
+-or-
+kubectl get deploy -n dev -o jsonpath='{ range .items[*]}{.spec.template.spec.containers[0].image }{"\n"}{end}'
 ```
 
 ### Error from server (Forbidden): error when creating "STDIN": pods "pause" is forbidden: unable to validate against any pod security policy: []
