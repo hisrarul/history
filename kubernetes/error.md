@@ -73,3 +73,13 @@ spec:
 1. If your nodes are part of autoscaling group then restart it
 Exact error: https://github.com/moby/moby/issues/40399
 ```
+
+#### 5. Error syncing load balancer: failed to ensure load balancer: could not find any suitable subnets for creating the ELB
+```bash
+# Apply tags on subnets that cluster uses for load balancer resources
+  Key: kubernetes.io/cluster/cluster-name
+  Value: shared
+# Allow kubernetes to use tag subnet for external load balancer
+  Key: kubernetes.io/role/elb
+  Value: 1
+```
