@@ -76,6 +76,8 @@ Exact error: https://github.com/moby/moby/issues/40399
 
 #### 5. Error syncing load balancer: failed to ensure load balancer: could not find any suitable subnets for creating the ELB
 ```bash
+Ref: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
+
 # Apply tags on subnets that cluster uses for load balancer resources
   Key: kubernetes.io/cluster/cluster-name
   Value: shared
