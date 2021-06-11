@@ -4,7 +4,7 @@ import logging
 
 dbName = 'bounceemail'
 tableName = 'sesblog2'
-sesEventType = 'Delivery'
+sesEventType = 'Bounce'
 output='s3://israr-test-result/'
 
 logger = logging.getLogger()
@@ -58,6 +58,18 @@ def deactiveIamUser(iamUser, userAccessIds):
         userDeactivationResult = access_key.deactivate()
         logger.info("User \"{}\" access id \"{}\" has been disabled.".format(iamUser,userAccessId))
 
+def update_dynamoDB(iamUser, userAccessIds):    
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('raghib_test')
+    with table.batch_writer() as batch:
+        for userAccessId in userAccessIds:
+            batch.put_item(
+                Item={
+                    'IAM_User': iamUser,
+                    'access_key': userAccessId
+                }
+            )
+        logger.info("User \"{}\" access id \"{}\" has been disabled.".format(iamUser,userAccessId))
 
 # def lambda_handler():
 def lambda_handler(event, context):
@@ -65,3 +77,5 @@ def lambda_handler(event, context):
     usersAndKeys = getIamUserAccessId(userList)
     for user,keys in usersAndKeys.items():
         deactiveIamUser(user, keys)
+    for user,keys in usersAndKeys.items():
+        update_dynamoDB(user, keys)
