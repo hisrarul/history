@@ -39,3 +39,21 @@ docker-compose -f docker-compose-mysql.yaml up -d
 DELETE FROM `<table_name>`
 WHERE ((`id` = '1') OR (`id` = '8'));
 ```
+
+
+#### MySQL dump and restore to another logical database
+```bash
+
+###
+# ERROR 1227 (42000)
+# /*!50003 CREATE*/ /*!50017 DEFINER=`databaseUserNameOld`@`%`*/ /*!50003 TRIGGER `database_name_1`.tagging_after_insert AFTER INSERT ON tagging FOR EACH ROW
+###
+
+sed -i 's/database_name_1/database_name_2/' database_name_1.sql
+sed -i 's#DEFINER=`databaseUserNameOld`/DEFINER=`databaseUserNameNew`#g' database_name_1.sql
+
+log_bin_trust_function_creators = 1
+
+mysqldump -h database-endpoint.rds.amazonaws.com --databases database_name_1 --set-gtid-purged=OFF -u databaseUserNameOld -p > database_name_1.sql
+mysql -h database-endpoint.rds.amazonaws.com -D database_name_2 -u databaseUserNameNew -p < database_name_1.sql
+```
