@@ -1,0 +1,20 @@
+FROM jenkins/inbound-agent:4.6-1
+USER root
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  buster stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
+RUN rm -rf get_helm.sh awscliv2.zip aws
+RUN usermod -aG docker jenkins
+USER jenkins
+RUN mkdir ~/.aws && echo "[default]\nregion = ap-south-1\noutput = json" | tee ~/.aws/config
+CMD ["bash"]
+ENTRYPOINT ["jenkins-agent"]
+
+
+# aws ecr get-login-password --region ap-south-1 --profile staging | docker login --username AWS --password-stdin <aws-account-number>.dkr.ecr.ap-south-1.amazonaws.com
+
+# https://support.cloudbees.com/hc/en-us/articles/360028151031-Docker-outside-of-Docker-no-longer-works-in-EKS
+# https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/enable-docker-bridge-network.md
+# https://github.com/awslabs/amazon-eks-ami
