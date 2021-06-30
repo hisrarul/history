@@ -43,3 +43,11 @@ CMD ["5"]
 To overwrite the entrypoint we can use it in the cli
 docker run --entrypoint sleep2.0 docker-sleep 10
 ```
+
+#### Build docker image with git commit id
+```bash
+cd <git_repository>
+hash="$(git rev-parse --short HEAD)" &&
+docker build -t <aws_account_number>.dkr.ecr.ap-south-1.amazonaws.com/cg-prod/ui-service:$hash . &&
+docker push <aws_account_number>.dkr.ecr.ap-south-1.amazonaws.com/cg-prod/ui-service:$hash
+```
