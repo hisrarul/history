@@ -179,11 +179,11 @@ curl -XPUT 'http://localhost:9200/_snapshot/<s3_respository_name>?verify=false&p
 ```
 
 #### Backup indices to s3 bucket
-```
+```bash
 # using kibana dev tool
 PUT /_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false
 {
-   "indices": "index_1, index_2, index3",
+   "indices": "index_1,index_2,index3",
    "ignore_unavailable": true,
    "include_global_state": false
 }
@@ -196,6 +196,18 @@ curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name
    "ignore_unavailable": true,
    "include_global_state": false
 }'
+
+-or-
+# This step is required when we want to backup a lot of indices.
+cat > indices-list-29th-june-2021.txt << EOF
+{
+   "indices": "index1,index2",
+   "ignore_unavailable": true,
+   "include_global_state": false
+}
+EOF
+
+curl -XPOST http://localhost:9200/_snapshot/<s3_respository_name>/<snapshot-name>/?wait_for_completion=false -H 'Content-Type: application/json' -d @indices-list-29th-june-2021.txt
 ```
 
 #### Restore snapshot from s3 bucket
