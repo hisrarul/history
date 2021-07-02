@@ -22,6 +22,43 @@ We are using system manager to login ec2 instances which needs cloudwatch agent 
 ```
 python ../python/boto3/create_csv_upload_to_s3.py
 ```
+## Cross account s3 bucket
+* [Cross account access s3](https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/)
+* [Update s3 bucket permission](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example2.html)
+```
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "Example permissions",
+         "Effect": "Allow",
+         "Principal": {
+            "AWS": "arn:aws:iam::AccountB-ID:root"
+         },
+         "Action": [
+            "s3:GetBucketLocation",
+            "s3:ListBucket"
+         ],
+         "Resource": [
+            "arn:aws:s3:::DOC-EXAMPLE-BUCKET"
+         ]
+      },
+      {
+         "Sid": "Deny permission",
+         "Effect": "Deny",
+         "Principal": {
+            "AWS": "arn:aws:iam::AccountB-ID:root"
+         },
+         "Action": [
+            "s3:ListBucket"
+         ],
+         "Resource": [
+            "arn:aws:s3:::DOC-EXAMPLE-BUCKET"
+         ]
+      }
+   ]
+}
+```
 
 #### References
 * [1] [Console access from restricted IP address](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html)
