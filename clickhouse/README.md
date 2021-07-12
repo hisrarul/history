@@ -32,3 +32,18 @@ tname=$(echo $file | cut -d. -f1)
 clickhouse-client --host=127.0.0.1 --query="INSERT INTO DATABASE1.$tname FORMAT TSV" < backup/$file
 done
 ```
+
+#### Deleting ClickHouse replication entries from ZooKeeper
+Ref: https://dev.to/jv/deleting-clickhouse-replication-entries-from-zookeeper-3cl4
+When playing with ClickHouse replicated tables it is quite probable that we end up getting errors like:
+```
+DB::Exception: Replica /clickhouse/my_cluster/tables/shard_01/bids/replicas/replica_01 already exists
+```
+Deleting this entry it's quite simple. Just connect to one of the ZooKeeper nodes in the cluster and execute:
+```bash
+./zkCli.sh deleteall /clickhouse/my_cluster/tables/shard_01/bids/replicas/replica_01
+```
+If we want to start all over we could even delete all the information regarding the cluster my_cluster:
+```bash
+./zkCli.sh deleteall /clickhouse/my_cluster
+```
