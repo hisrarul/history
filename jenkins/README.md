@@ -21,3 +21,20 @@ Access the URL:
 https://www.google.com/settings/security/lesssecureapps
 Turn "Allow less secure apps: OFF" to "Allow less secure apps: ON"
 ```
+
+#### Update timezone in Jenkins build
+[Referred: Jenkins doc](https://www.jenkins.io/doc/book/managing/change-system-timezone/) 
+```bash
+# Run below in Jenkins script console:
+System.setProperty('org.apache.commons.jelly.tags.fmt.timeZone', 'America/New_York')
+```
+
+#### Slack notification in Jenkins pipeline
+Add below snippet in Jenkins pipeline
+```groovy
+    post {
+        always {
+            slackSend channel: 'jenkins', color: COLOR_MAP[currentBuild.currentResult], message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\\n More info at: ${env.BUILD_URL}"
+        }
+    }
+```
