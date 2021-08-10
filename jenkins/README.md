@@ -40,6 +40,7 @@ Add below snippet in Jenkins pipeline
 ```
 
 #### Copy ssh key into the docker container in Jenkins pipeline
+[Referred doc](https://stackoverflow.com/questions/49460520/how-to-copy-jenkins-secret-files)
 ```groovy            
             script {
                     dir('projDir') {
