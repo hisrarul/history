@@ -38,3 +38,28 @@ Add below snippet in Jenkins pipeline
         }
     }
 ```
+
+#### Copy ssh key into the docker container in Jenkins pipeline
+```groovy            
+            script {
+                    dir('projDir') {
+                        withCredentials([file(credentialsId: '00000-0000-000-000-000000', variable: 'myprivatekey')]) {
+                        writeFile file: 'private.pem', text: readFile(myprivatekey)
+                        sh """
+                            docker build -t ${params.ecrRepo}/${params.env}/${params.service}:${commitId} .
+                        """
+                        }
+                    }
+                }
+
+
+# Inside dockerfile either use COPY or ADD
+FROM python:3.9
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh && \
+    ssh-keyscan github.com > /root/.ssh/known_hosts
+
+ADD private.pem /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id_rsa
+```
+
