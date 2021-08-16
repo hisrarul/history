@@ -50,6 +50,9 @@ const person = {
 console.log(person)
 person.greet();
 
+const copiedPerson = {...person}
+console.log(copiedPerson)
+
 // Arrays
 const hobbies = ["Sports", "cooking"]
 for (let hobby of hobbies) {
@@ -58,3 +61,24 @@ for (let hobby of hobbies) {
 
 console.log(hobbies.map(hobby => 'Hobby: ' + hobby));
 console.log(hobbies);
+
+// Add element in array
+hobbies.push('Programming')
+console.log(hobbies)
+
+// Copy an array
+copyArray = hobbies.slice()
+console.log(copyArray)
+
+// Copy using spread operator
+const copiedArray = [...hobbies]
+console.log(copiedArray)
+
+
+// Pass multiple arguments using Rest operator
+
+const toArray = (...args) => {
+    return args;
+}
+
+console.log(toArray(1,2,3,4))
