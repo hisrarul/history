@@ -35,3 +35,9 @@ const session = require('express-session');
     "start": "nodemon 7-assignment.js"
 }
 ```
+
+## Template Engine
++ Install template engine such ejs, pug, express-handlebars
+```
+npm install --save ejs pug express-handlebars
+```
