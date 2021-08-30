@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = "Secret Key"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dbUsername:dbPassword@dbEndpoint/database'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:example1234@db/crud'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -63,4 +63,5 @@ def delete(id):
     return redirect(url_for('Index'))
 
 if __name__ == "__main__":
+    app.run(host='0.0.0.0')
     app.run(debug=True)
