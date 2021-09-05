@@ -1,0 +1,44 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add User</li>
+    </ol>
+</nav>
+
+<form class="row g-3 needs-validation" method="POST" action="/adduser" novalidate>
+    <div class="col-6">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="First Name" name="first_name">
+            <label for="floatingInput">First Name</label>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Last Name" name="last_name">
+            <label for="floatingInput">Last Name</label>
+        </div>
+
+    </div>
+
+    <div class="col-6">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="email@email.com" name="email">
+            <label for="floatingInput">Email</label>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Phone" name="phone">
+            <label for="floatingInput">Phone</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Comments" name="comments" style="height: 150px;">
+            <label for="floatingInput">Comments</label>
+        </div>
+    </div>
+    <div class="col-12 d-grid">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
