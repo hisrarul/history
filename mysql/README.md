@@ -57,3 +57,10 @@ log_bin_trust_function_creators = 1
 mysqldump -h database-endpoint.rds.amazonaws.com --databases database_name_1 --set-gtid-purged=OFF -u databaseUserNameOld -p > database_name_1.sql
 mysql -h database-endpoint.rds.amazonaws.com -D database_name_2 -u databaseUserNameNew -p < database_name_1.sql
 ```
+
+
+#### Modify colum of a table with Auto increment
+```sql
+ALTER TABLE `table_name`
+CHANGE `column_name` `column_name` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+```
