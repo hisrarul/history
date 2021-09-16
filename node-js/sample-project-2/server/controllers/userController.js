@@ -24,7 +24,7 @@ exports.view = (req, res) => {
             }
             console.log('The data from user table: \n', rows);
         });
-    });   
+    });  
 }
 
 exports.find = (req, res) => {
@@ -61,11 +61,61 @@ exports.create = (req, res) => {
             // When done with connection, release it
             connection.release();
             if (!err) {
-                res.render('add-user');
+                res.render('add-user', {alert: 'User added successfully.'});
             } else {
                 console.log(err);
             }
             console.log('The data from user table: \n', rows);
         });
     });
+}
+
+// Edit user
+exports.edit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err;
+        console.log('Connected as ID ' + connection.threadId);
+        // Use the connection
+        connection.query('SELECT * FROM users where id = ?', [req.params.id], (err, rows) => {
+            // When done with connection, release it
+            connection.release();
+            if (!err) {
+                res.render('edit-user', { rows });
+            } else {
+                console.log(err);
+            }
+            console.log('The data from user table: \n', rows);
+        });
+    });
+}
+
+// Update user
+exports.update = (req, res) => {
+    const { first_name, last_name, email, phone, comments } = req.body
+    pool.getConnection((err, connection) => {
+        if(err) throw err;
+        console.log('Connected as ID ' + connection.threadId);
+        connection.query('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ? where id = ?', [first_name, last_name, email, phone, comments, req.params.id], (err, rows) => {
+            connection.release();
+            if (!err) {
+                // This have copied to avoid the empty form loop
+                pool.getConnection((err, connection) => {
+                    if(err) throw err;
+                    console.log('Connected as ID ' + connection.threadId);
+                    connection.query('SELECT * FROM users where id = ?', [req.params.id], (err, rows) => {
+                        connection.release();
+                        if (!err) {
+                            res.render('edit-user', { rows, alert: `${first_name} has been updated successfully!` });
+                        } else {
+                            console.log(err);
+                        }
+                        console.log('The data from user table: \n', rows);
+                    });
+                });
+            } else {
+                console.log(err);
+            }
+            console.log('The data from user table: \n', rows);
+        });
+    });  
 }
