@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const pool = require("./db");
 const path = require('path');
+const sha512 = require('crypto-js/sha512');
+const crypto = require('crypto')
+const bcrypt = require('bcrypt')
 
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}))
-
-// Routes
+app.use(bodyParser.json())
 
 // login page
 app.get("/login", (req, res) => {
@@ -20,29 +22,41 @@ app.get("/login", (req, res) => {
 
 // User login
 app.post("/login", async (req, res) => {
-    const sql = "select username from auth_method1 where username = $1 and password = $2"
-    const result = await pool.query(sql, [req.body.uname, req.body.psw]);
+    try {
+        const sql = "select * from auth_method4 where username = $1"
+        const result = await pool.query(sql, [req.body.uname]);
 
-    //fail
-    if (result.rowCount === 0)
+        // fail
+        if (result.rowCount === 0)
         res.send({"error": "Incorrect username or password"})
-    else
-        res.send({"success": "Logged in successfully!"})
+        else {
+            // compare salted password
+            const saltedPassword = result.rows[0].password;
+
+            const successResult = await bcrypt.compare(req.body.psw, saltedPassword)
+            
+            if (successResult === true)
+                res.send({"success": "Logged in successfully!"})
+            else
+                res.send({"error": "Incorrect username or password"})
+        }
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 // Register user
 app.post("/register", async (req, res) => {
     //check if user exist 
-    const sql = "select username from auth_method1 where username = $1"
+    const sql = "select username from auth_method4 where username = $1"
     const result = await pool.query(sql,
                              [req.body.uname]);
     //success, user is not there create it
     if (result.rowCount === 0)
     {
-        await pool.query("insert into auth_method1 (username, password) values ($1,$2)",
-        [req.body.uname,req.body.psw]);
+        const hash =  await bcrypt.hash(req.body.psw, 10)
+        await pool.query("insert into auth_method4 (username, password) values ($1,$2)", [req.body.uname,hash]);
         res.send({"success": "User created successfully"})
-
     } 
     else
         res.send({"error": "User already exists.."})
@@ -85,6 +99,7 @@ app.put("/todos/:id", async(req, res) => {
     try {
         const { id } = req.params
         const { description } = req.body
+        console.log(description)
         const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2", [description, id])
         res.json("Todo has updated!")
     } catch (err) {

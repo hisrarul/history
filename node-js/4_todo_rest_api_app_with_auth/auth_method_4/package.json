@@ -1,5 +1,5 @@
 {
-  "name": "3_todo_rest_api_app",
+  "name": "4_todo_rest_api_app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.1",
     "path": "^0.12.7",
     "pg": "^8.7.1"

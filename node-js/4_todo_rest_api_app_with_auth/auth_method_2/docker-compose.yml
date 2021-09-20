@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  postgres_db:
+    image: postgres:11.7
+    container_name: posttest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /var/lib/postgresql/data/
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
