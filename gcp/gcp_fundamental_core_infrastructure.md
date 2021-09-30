@@ -114,8 +114,8 @@ dd if=/dev/urandom | gzip -9 >> /dev/null &
 gs://cloud-training/gcpfci/access_log.csv
 ```
 
-Run query
 ```sql
+-- Run query
 select int64_field_6 as hour, count(*) as hitcount from logdata.accesslog
 group by hour
 order by hour
