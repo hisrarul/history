@@ -123,3 +123,172 @@ order by hour
 -- Using bq
 bq query "select string_field_10 as request, count(*) as requestcount from logdata.accesslog group by request order by requestcount desc"
 ```
+
+#### Summary
+
+
+#### Comparing compute options
+
+<table>
+  <tr>
+    <th></th>
+    <th>Compute Engine</th>
+    <th>Kubernetes Engine</th>
+    <th>App Engine Flex</th>
+    <th>App Engine Standard</th>
+    <th>Cloud Functions</th>
+  </tr>
+  <tr>
+    <td><b>Service model</b></td>
+    <td>Iaas </td>
+    <td>Hybrid </td>
+    <td>PaaS </td>
+    <td>PaaS </td>
+    <td>Serverless </td>
+  </tr>
+  <tr>
+    <td><b>Use cases</b></td>
+    <td>General computing workloads</td>
+    <td>Container based workloads</td>
+    <td>Web and mobile appcations; container based workloads</td>
+    <td>Web and mobile appcations</td>
+    <td>Ephemeral functions responding to events</td>
+  </tr>
+</table>
+
+
+#### Comparing load balancing options
+
+<table>
+  <tr>
+    <th>Global HTTP(S)</th>
+    <th>Global SSL Proxy</th>
+    <th>Global TCP Proxy</th>
+    <th>Regional</th>
+    <th>Regionl Internal</th>
+  </tr>
+  <tr>
+    <td>Layer 7 load balancing based on load </td>
+    <td>Layer 4 load balancing of non-HTTPS SSL traffic based on load</td>
+    <td>Layer 4 load balancing of non-SSL TCP traffic</td>
+    <td>Load balancing of any traffic (TCP, UDP)</td>
+    <td>Load balancing of traffic inside a VPC</td>
+  </tr>
+  <tr>
+    <td>Can route different URLs to different backends</td>
+    <td>Supported on specific port numbers</td>
+    <td>Supported on specific port numbers</td>
+    <td>Supported on any port number</td>
+    <td>Used for the internal tiers of multi-tier applications</td>
+  </tr>
+</table>
+
+
+#### Comparing interconnect options
+
+<table>
+  <tr>
+    <th>VPN</th>
+    <th>Direct Peering</th>
+    <th>Carrier Peering</th>
+    <th>Dedicated Interconnect</th>
+  </tr>
+  <tr>
+    <td>Secure multi-Gbps connection over VPN tunnels</td>
+    <td>Private connection between you and Google for your hybrid cloud workloads</td>
+    <td>Connection through the largest partner network of service providers</td>
+    <td>Connect N X 10G tranport circuits for private cloud traffic to Google Cloud at Google POPs</td>
+  </tr>
+</table>
+
+
+#### Comparing storage options
+
+<table>
+  <tr>
+    <th></th>
+    <th>Cloud Datastore</th>
+    <th>Cloud Bigtable</th>
+    <th>Cloud Storage</th>
+    <th>Cloud SQL</th>
+    <th>Cloud Spanner</th>
+    <th>BigQuery</th>
+  </tr>
+  <tr>
+    <td><b>Type</b></td>
+    <td>NoSQL document</td>
+    <td>NoSQL wide column</td>
+    <td>Blobstore</td>
+    <td>Relational SQL for OLTP</td>
+    <td>Relational SQL for OLTP</td>
+    <td>Relational SQL for OLAP</td>
+  </tr>
+  <tr>
+    <td><b>Best for</b></td>
+    <td>Getting started, App Engine applications</td>
+    <td>"Flat" data, Heavy read/write, events, analytical data</td>
+    <td>Structured and unstructured binary or object data</td>
+    <td>Web frameworks, existing applications</td>
+    <td>Large scale database applications (>~2TB)</td>
+    <td>Interactive querying, offline analytics</td>
+  </tr>
+  <tr>
+    <td><b>Use cases</b></td>
+    <td>Getting started, App Engine applications</td>
+    <td>AdTech, Financial and IoT data</td>
+    <td>Images, large media files, backups</td>
+    <td>User credentials, customer orders</td>
+    <td>Whenever high I/O, global consistency is needed</td>
+    <td>Data warehousing</td>
+  </tr>
+</table>
+
+
+#### Choosig among Google Cloud Storage classes
+
+<table>
+  <tr>
+    <th></th>
+    <th>Multi-regional</th>
+    <th>Regional</th>
+    <th>Nearline</th>
+    <th>Coldline</th>
+  </tr>
+  <tr>
+    <td><b>Intended for data that is</b></td>
+    <td>Most frequently accessed</td>
+    <td>Access frequently within a region</td>
+    <td>Access less than once a month</td>
+    <td>Access less than once a month</td>
+  </tr>
+  <tr>
+    <td><b>Availability SLA</b></td>
+    <td>99.95%</td>
+    <td>99.90%</td>
+    <td>99.00%</td>
+    <td>99.00%</td>
+  </tr>
+  <tr>
+    <td><b>Access APIs</b></td>
+    <td colspan="4">Consistent APIs</td>
+  </tr>
+  <tr>
+    <td><b>Access time</b></td>
+    <td colspan="4">Millisecond access</td>
+  </tr>
+  <tr>
+    <td><b>Storage price</b></td>
+    <td colspan="4">Price per GB per month</td>
+  </tr>
+  <tr>
+    <td><b>Retrieval price</b></td>
+    <td colspan="4">Total price per GB transferred</td>
+  </tr>
+  <tr>
+    <td><b>Use cases</b></td>
+    <td>Content storage and delivery</td>
+    <td>In-region analytics, transcoding</td>
+    <td>Long-tail content, backups</td>
+    <td>Archiving, disaster recovery</td>
+  </tr>
+</table>
