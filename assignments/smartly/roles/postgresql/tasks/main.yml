@@ -1,0 +1,64 @@
+---
+# Removing the lock to avoid dpkg error
+# - name: Remove the apt lock file
+#   file:
+#     path: "/var/lib/dpkg/lock-frontend"
+#     state: absent
+
+- name: Installing acl, postgresql, pysycopg2
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "acl"
+    - "postgresql-9.5"
+    - "python-psycopg2"
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+
+- lineinfile:
+    path: /etc/postgresql/9.5/main/postgresql.conf
+    regexp: "^#listen_addresses = 'localhost'"
+    line: "listen_addresses = '0.0.0.0'"
+  notify:
+    - restart postgresql
+
+- name: configure shared buffers
+  lineinfile:
+    path: /etc/postgresql/9.5/main/postgresql.conf
+    regexp: "^shared_buffers"   
+    line: "shared_buffers = 16MB"
+  notify:
+    - restart postgresql
+
+- name: configure pg_hba
+  lineinfile:
+    path: /etc/postgresql/9.5/main/pg_hba.conf
+    insertafter: '^local   all             postgres                                peer'
+    line: 'host postdo postdo 0.0.0.0/24 md5'
+  notify:
+    - reload postgresql
+
+- name: create postdb user
+  postgresql_user:
+    name: postdo
+    password: postdosecretpassword
+  become: yes
+  become_user: postgres
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+
+- name: create postdo database
+  postgresql_db:
+    name: postdo
+    state: present
+    owner: postdo
+  become_user: postgres
+  notify: restart postgresql
+
+# handler can be called at line no. 25
+# - name: ensure postgresql is enabled and running
+#   service:
+#     name: postgresql
+#     state: running
+#     enabled: yes

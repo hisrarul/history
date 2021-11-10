@@ -1,0 +1,44 @@
+---
+- name: install haproxy
+  apt: name=haproxy state=latest
+
+- name: configure haproxy
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg owner=root group=haproxy mode=0640
+  register: haproxy_restart
+
+# it was giving error before in absence
+- name: create /var/log/lastlog
+  file: path=/var/log/lastlog state=file
+
+- name: restart haproxy
+  service: name=haproxy state=restarted
+  when: haproxy_restart.changed
+
+- name: ensure haproxy is enabled and running
+  service: name=haproxy enabled=yes state=started
+
+- name: install nginx
+  apt: name=nginx-full state=latest
+
+- name: remove nginx default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: configure nginx
+  template: src=postdo-site.conf.j2 dest=/etc/nginx/sites-enabled/postdo owner=root group=root mode=0644
+  register: nginx_restart
+
+- name: create nginx ssl directory
+  file: path=/etc/nginx/ssl state=directory
+
+- name: copy certificate key
+  copy: src=nginx.key dest=/etc/nginx/ssl/nginx.key
+
+- name: copy certificate
+  copy: src=nginx.crt dest=/etc/nginx/ssl/nginx.crt
+
+- name: restart nginx
+  service: name=nginx state=restarted
+  when: nginx_restart.changed
+
+- name: ensure nginx is enabled and running
+  service: name=nginx enabled=yes state=started

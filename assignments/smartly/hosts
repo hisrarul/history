@@ -1,0 +1,16 @@
+[databases]
+db1 ansible_python_interpreter=/usr/bin/python
+
+[appservers]
+app1
+
+[loadbalancers]
+lb1
+
+[py-hosts:children]
+databases
+appservers
+loadbalancers
+
+[py-hosts:vars]
+ansible_host=13.233.79.225

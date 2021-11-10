@@ -1,0 +1,28 @@
+---
+postdo_database_name: postdo
+postdo_database_user: postdo
+# postdo_database_password: postdosecretpassword
+postdo_database_password: "{{ vault_postgres_password }}"
+postdo_database_host: "{{ hostvars[groups.databases[0]]['ip'] }}"
+
+
+# Changing the port number from 80 to 8090
+haproxy_frontends:
+  public_http: |
+    mode http
+    bind 0.0.0.0:8090
+    timeout client 5s
+    default_backend postdo_backend
+
+haproxy_backends:
+  postdo_backend: |
+    balance leastconn
+    option httpchk GET /
+    option forwardfor if-none
+    server app1 {{ hostvars[groups.appservers[0]]['ip'] }}:8080 check inter 5s
+
+# ---
+# - name: print_dns server
+#   hosts: all
+#   tasks:
+#     - shell: "echo {{hostvars['node01.host'].dns_server}} >> /tmp/variable.txt"

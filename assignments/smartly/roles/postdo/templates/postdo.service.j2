@@ -1,0 +1,10 @@
+[Unit]
+Description=Postdo app
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/default/postdo
+ExecStart=/usr/local/bin/postdo
+
+[Install]
+WantedBy=multi-user.target

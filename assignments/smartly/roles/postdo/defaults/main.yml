@@ -1,0 +1,5 @@
+---
+postdo_database_host: 127.0.0.1
+postdo_database_user: postdo
+postdo_database_password: ''
+postdo_database_name: postdo
