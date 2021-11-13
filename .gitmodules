@@ -1,0 +1,3 @@
+[submodule "gitops/content-gitops"]
+	path = gitops/content-gitops
+	url = https://github.com/linuxacademy/content-gitops.git
