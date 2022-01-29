@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: example-app
+spec:
+    containers:
+        -
+            name: example-app
+            image: ubuntu
+            command: ["sleep" , "3600"]
+            securityContext:
+              privileged: True
+              runAsUser: 0
+              capabilities:
+                add: ["CAP_SYS_BOOT"]
+    volumes:
+    -   name: data-volume
+        hostPath:
+          path: '/data'
+          type: Directory
