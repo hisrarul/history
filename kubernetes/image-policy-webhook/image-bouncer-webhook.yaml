@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: image-bouncer-webhook
+    pod-template-hash: f95dfcbdd
+  name: image-bouncer-webhook
+spec:
+  containers:
+  - args:
+    - --cert=/etc/admission-controller/tls/tls.crt
+    - --key=/etc/admission-controller/tls/tls.key
+    - --debug
+    - --registry-whitelist=docker.io,k8s.gcr.io
+    image: kainlite/kube-image-bouncer:latest
+    imagePullPolicy: Always
+    name: image-bouncer-webhook
+    resources: {}

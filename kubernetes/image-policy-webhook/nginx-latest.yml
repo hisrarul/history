@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-latest
+  labels:
+    tier: nginx-latest
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: nginx-latest
+  template:
+    metadata:
+      labels:
+        tier: nginx-latest
+    spec:
+      containers:
+      - name: nginx-latest
+        image: nginx:1.19
