@@ -85,3 +85,14 @@ Ref: https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-disco
   Key: kubernetes.io/role/elb
   Value: 1
 ```
+
+#### Error 3:  
+It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+
+Add below content in /etc/docker/daemon.json
+```json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+```
