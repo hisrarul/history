@@ -27,6 +27,7 @@ k apply -f csr.yml
 ```
 
 * Step 3
+  * Approve the certificate `k certificate approve jane`
   * Get CRT from CSR 
   * k get csr jane -o yaml (Copy CRT from status)
   * Decode the CRT from base64 and save as jane.crt
@@ -34,4 +35,16 @@ k apply -f csr.yml
 * Step 4: Update the config file
   * k config set-credentials jane --client-key=jane.key --client-certificate=jane.crt
   * In config use REDACTED using embed-certs keyword `k config set-credentials jane --client-key=jane.key --client-certificate=jane.crt --embed-certs`
+  * View config in raw format `kubectl config view --raw`
+ 
+* Step 5: Set context (optional)
+```bash
+kubectl config set-context jane --user=jane --cluster=kubernetes
+kubectl config get-contexts
+kubectl config use-context jane
+```
+
+#### Flow:
+
+Create KEY >> Create CSR >> API >> Download CRT from API >> Use CRT + Key
 
