@@ -54,7 +54,7 @@ impute_weight.fit(data[['Item_Weight']])
 data.Item_Weight = impute_weight.tranform(data[['Item_Weight']])
 
 # fit the Outlet_Size imputer with the data and transform
-impute_size.git(data[['Outlet_Size']])
+impute_size.fit(data[['Outlet_Size']])
 data.Outlet_Size = impute_size.transform(data[['Outlet_Size']])
 
 # check the null values
