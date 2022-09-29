@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Single Status Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    .masthead {
+      height: 50vh;
+      min-height: 50px;
+      background-image: url('https://source.unsplash.com/BtbjCFUvBXs/1920x1080');
+      background-size: cover;
+      background-position: center;
+    }
+    .img {
+      display: block;
+      margin-left: 190px;
+      margin-right: 190px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .box {
+      background-position: center;
+      margin-top: 10px;
+      background-color: #2ecc66;
+      text-transform: bold;
+    }
+    .systext {
+      font-weight: bold;
+      font-size: 20px;
+      color: white;
+      text-align: start;
+      padding-left: 10px;
+    }
+    .table {
+      border: 1px solid black;
+    }
+
+  </style>
+</head>
+
+
+<body>
+  <div class="container">
+    <a href="">
+      <img src="https://www.ovhcloud.com/sites/default/files/styles/large_screens_1x/public/2022-04/grafana-6001.jpeg"
+           alt="Cohesity Logo" class="img">
+    </a>
+  </div>
+</nav>
+
+<!-- Full Page Image Header with Vertically Centered Content -->
+<header class="masthead">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h1 class="fw-light">Single Status Page</h1>
+        <p class="lead">Unified way to check health of all services</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
+    <div class="box systext">All Systems Operational</div>
+    <table class="table" style="margin-top: 10px;">
+      <thead>
+        <tr>
+          <th>Services</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="data">
+  
+      </tbody>
+    </table>
+</div>
+
+  <script>
+    const url = 'http://10.2.214.54:5000/api/services/ui/health';
+    function getStatus() {
+        fetch(url).then((res) => {
+            return res.json();
+        }).then((data) => {
+                if (data.length > 0) {
+
+                var temp = "";
+                data.forEach((itemData) => {
+                    temp += "<tr>";
+                    temp += "<td>" + itemData.service_name + "</td>";
+                if (itemData.service_status == 'Operational') {
+                    temp += '<td style="color: #2ecc66;">' + itemData.service_status + "</td></tr>";
+                } else {
+                    temp += '<td style="color: red;">' + itemData.service_status + "</td></tr>";
+                }
+                });
+                document.getElementById('data').innerHTML = temp;
+                }
+            })
+        }
+    setInterval( function() { getStatus(); }, 30000);
+    </script>
+</body>
+</html>
