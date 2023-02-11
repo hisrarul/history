@@ -1,5 +1,13 @@
 node_modules
 __pycache__
 .venv
+
+**/.DS_Store/*
 **/cdk.out/*
 **/cdk.json
+*.js
+!jest.config.js
+*.d.ts
+
+# CDK asset staging directory
+.cdk.staging
