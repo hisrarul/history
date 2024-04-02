@@ -81,4 +81,15 @@ kubectl get deploy -n dev -o jsonpath='{ range .items[*]}{.spec.template.spec.co
 kubectl create rolebinding <rolebinding-psp-privileged> --clusterrole=psp:privileged --serviceaccount=<service_account_name>:default --namespace <namespace>
 ```
 
+### Create docker registry secret
+```
+{"auths":{"your_registry":{"username":"your_registry_username","password":"your_registry_password","auth":"base64 of your registry username:password"}}}
+```
+-or-
+```
+kubectl create secret docker-registry secret \
+  --docker-server=your_registry \
+  --docker-username=your_registry_username \
+  --docker-password=your_registry_password
+```
 
