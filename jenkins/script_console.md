@@ -68,3 +68,10 @@ if (myCred) {
     println "Credential ID 'gitlab_svc_vault' not found."
 }
 ```
+
+## Print Azure AD Object ID
+```yaml
+def group = Jenkins.instance.securityRealm.loadGroupByGroupname("DL - Project Team", true)
+println "Class: ${group.class.name}"
+group.properties.each { k, v -> println "${k} = ${v}" }
+```
